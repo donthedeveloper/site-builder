@@ -25,9 +25,9 @@ const router = require('./server/routes');
 
 app.use('/', router);
 
-app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   // eslint-disable-next-line no-console
-  console.log(chalk.blue(`App is listening on port ${this.address().port}`));
+  console.log(chalk.blue(`App is listening on port ${server.address().port}`));
 });
 
 module.exports = app;
