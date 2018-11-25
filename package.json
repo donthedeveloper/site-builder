@@ -10,8 +10,12 @@
     "start": "node app.js",
     "start-dev": "./node_modules/nodemon/bin/nodemon.js app.js",
     "test": "test",
-    "webpack-watch": "./node_modules/webpack/bin/webpack.js -w"
+    "webpack-watch": "./node_modules/webpack/bin/webpack.js -w",
+    "eslint": "./node_modules/.bin/eslint *.js"
   },
+  "pre-commit": [
+    "eslint"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/donthedeveloper/site-builder.git"
@@ -41,8 +45,14 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "node-sass": "^4.10.0",
     "nodemon": "^1.18.6",
+    "pre-commit": "^1.2.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "webpack": "^4.25.1",
