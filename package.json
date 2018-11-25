@@ -11,10 +11,12 @@
     "start-dev": "./node_modules/nodemon/bin/nodemon.js app.js",
     "test": "test",
     "webpack-watch": "./node_modules/webpack/bin/webpack.js -w",
-    "eslint": "./node_modules/.bin/eslint *.js"
+    "eslint": "./node_modules/.bin/eslint *.js",
+    "stylelint": "./node_modules/.bin/stylelint browser/src/**/*.scss"
   },
   "pre-commit": [
-    "eslint"
+    "eslint",
+    "stylelint"
   ],
   "repository": {
     "type": "git",
@@ -55,6 +57,9 @@
     "pre-commit": "^1.2.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
+    "stylelint": "^9.8.0",
+    "stylelint-config-recommended": "^2.1.0",
+    "stylelint-scss": "^3.4.0",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
   }
