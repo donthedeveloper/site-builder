@@ -4,11 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "npm run start-dev & npm run sass & npm run sass-watch & npm run webpack-watch",
+    "dev": "NODE_ENV=development npm run start-dev & npm run sass & npm run sass-watch & npm run webpack-watch",
     "sass": "./node_modules/node-sass/bin/node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "./node_modules/node-sass/bin/node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node app.js",
-    "start-dev": "./node_modules/nodemon/bin/nodemon.js app.js",
+    "start-dev": "./node_modules/nodemon/bin/nodemon.js server.js",
     "test": "test",
     "webpack-watch": "./node_modules/webpack/bin/webpack.js -w"
   },
@@ -37,7 +37,9 @@
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "superagent": "^4.0.0",
+    "supertest": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
