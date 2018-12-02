@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  node:
+    image: "node:10.14.0"
+    depends_on:
+      - mongodb
+    container_name: node
+    user: "node"
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command: "npm run dev"
+    ports:
+      - 3000:3000
+
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    volumes:
+      - db-data:/data/db
+    ports:
+      - 27017:27017
+    logging:
+      driver: "none"
+
+volumes:
+  db-data:

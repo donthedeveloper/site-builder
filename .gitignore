@@ -61,4 +61,4 @@ typings/
 .next
 
 # public
-browser/public
+app/browser/public

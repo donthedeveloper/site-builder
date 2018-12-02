@@ -10,8 +10,7 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const env = process.env.ENVIRONMENT;
-const mongoUri = env === 'development' ? 'mongodb://localhost:27017/siteBuilder' : process.env.mongo_uri;
+const mongoUri = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://mongodb:27017/siteBuilder';
 mongoose.connect(mongoUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -20,7 +19,7 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
     saveUnitialized: false,
-    secret: env === 'development' ? 'imasecret' : process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET ? process.env.SESSION_SECRET : 'imasecret',
     store: new MongoStore({
         mongooseConnection: db
     })
