@@ -11,28 +11,33 @@ const app = express();
 const MongoStore = require('connect-mongo')(session);
 
 const env = process.env.ENVIRONMENT;
-const mongoUri = env === 'development' ? 'mongodb://localhost:27017/siteBuilder' : process.env.mongo_uri;
+const mongoUri =
+  env === 'development'
+    ? 'mongodb://localhost:27017/siteBuilder'
+    : process.env.mongo_uri;
 mongoose.connect(mongoUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.use(session({
+app.use(
+  session({
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
     saveUnitialized: false,
     secret: env === 'development' ? 'imasecret' : process.env.SESSION_SECRET,
     store: new MongoStore({
-        mongooseConnection: db
+      mongooseConnection: db
     })
-}))
+  })
+);
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 nunjucks.configure('./server/templates', {
-    autoescape: true,
-    express: app
+  autoescape: true,
+  express: app
 });
 
 app.engine('html', nunjucks.render);
@@ -44,7 +49,7 @@ const router = require('./server/routes');
 app.use('/', router);
 
 app.listen(process.env.PORT || 3000, function() {
-    console.log(chalk.blue(`App is listening on port ${this.address().port}`));
+  console.log(chalk.blue(`App is listening on port ${this.address().port}`));
 });
 
 module.exports = app;
