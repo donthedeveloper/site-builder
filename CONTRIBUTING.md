@@ -18,7 +18,7 @@ If you are actively trying to grow on the backend, look for the following labels
 
 What can be helpful to get better context of what features those issues are a part of is to look at issues that contain the label "feature".
 
-Once you find an issue that you would like to start working on, or even if just have questions, join us on Slack and let us know - http://slack.donthedeveloper.tv
+Once you find an issue that you would like to start working on, or even if just have questions, join us on [Slack](http://slack.donthedeveloper.tv) and let us know. Be sure to join the channel `site-builder` when you get there.
 
 ## Fork the repository (make a copy)
 
@@ -32,7 +32,7 @@ Make sure you have git installed. You'll want to clone your forked copy of the r
 
 (picture)
 
-## Create a git branch on local computer
+## Create a git branch on your local computer
 
 Just a reminder, when you clone your project, you will actually create a new folder that contains the project contents. The folder is most likely called `site-builder`. Move into that directory with `cd site-builder`. In the project directory, you can type `git branch` to see what branch you are currently on. If you've just downloaded the project, you should be on `master`. If you have been assigned an issue to work on, just be sure that your branch name starts with the issue number. For example, if the title of your issue is `Login Form` with the issue number as `24`. You could create the branch as `24-login-form`. The only thing that matters in the branch name is that you start the branch name with the issue number. This will conveniently, allow the issue to be pushed through the tracking process. You can see more about how issues are laid out on [Waffle.io](https://waffle.io/donthedeveloper/site-builder/join).
 
@@ -42,15 +42,17 @@ You can find instructions on how to get the project up and running successfully 
 
 ## Start coding and commit the work
 
-## Run tests
+Make commits as you make progress. Remember, commit early and often. Once you feel like you are finished, you'll push your local branch up to your forked version. You will then need to create a PR against our repository in order to merge the code in. Here's the [article](https://medium.com/@jenweber/your-first-open-source-contribution-a-step-by-step-technical-guide-d3aca55cc5a6) that this contributing file was based on. It will provide all of the details you need on how to do these things. Of course, if you still have questions, please don't hesitate to ask.
 
-## Open up a Pull Request
+<!-- ## Run tests -->
 
-## Expect feedback and respond with changes
+<!-- ## Open up a Pull Request -->
 
-## It's merged in
+<!-- ## Expect feedback and respond with changes -->
 
-## Updating your fork
+<!-- ## It's merged in -->
+
+<!-- ## Updating your fork -->
 
 ## Developer's Certification of Origin 1.1
 
