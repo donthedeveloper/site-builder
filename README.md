@@ -17,10 +17,10 @@ https://docs.docker.com/docker-for-windows/install/
 Once Docker is installed and you are logged in, it's time to download the project. We will talk about this more in the [CONTRIBUTING](CONTRIBUTING.md) file, but a common practice to contributing to open source is to fork a project and then clone your forked version. This is the first step in getting the project up and running on your computer.
 
 Fork:
-(fork images goes here)
+![fork the repository](https://ibb.co/FqS5tYP)
 
 Clone:
-(clone image goes here)
+![clone the fork](https://ibb.co/qNn4jmz)
 
 Once you've cloned the forked version and it's on your computer, make sure you are in the folder of the project, and then type: `docker-compose up`
 
