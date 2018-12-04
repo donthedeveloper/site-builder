@@ -42,7 +42,9 @@ You can find instructions on how to get the project up and running successfully 
 
 ## Start coding and commit the work
 
-Make commits as you make progress. Remember, commit early and often. Once you feel like you are finished, you'll push your local branch up to your forked version. You will then need to create a PR against our repository in order to merge the code in. Here's the [article](https://medium.com/@jenweber/your-first-open-source-contribution-a-step-by-step-technical-guide-d3aca55cc5a6) that this contributing file was based on. It will provide all of the details you need on how to do these things. Of course, if you still have questions, please don't hesitate to ask.
+Make commits as you make progress. Remember, commit early and often. Once you feel like you are finished, you'll push your local branch up to your forked version. You will then need to create a PR against our repository in order to merge the code in.
+
+Here's the [article](https://medium.com/@jenweber/your-first-open-source-contribution-a-step-by-step-technical-guide-d3aca55cc5a6) that this contributing file was based on. It will provide all of the details you need on how to do these things. Of course, if you still have questions, please don't hesitate to ask.
 
 <!-- ## Run tests -->
 
@@ -55,8 +57,6 @@ Make commits as you make progress. Remember, commit early and often. Once you fe
 <!-- ## Updating your fork -->
 
 ## Developer's Certification of Origin 1.1
-
-A lot of these steps were taken from a well written [article](https://medium.com/@jenweber/your-first-open-source-contribution-a-step-by-step-technical-guide-d3aca55cc5a6). It gives some great additional details explaining the above. Check it out if you get confused or want to learn more about the process of contributing.
 
 Developer's Certificate of Origin 1.1
 By making a contribution to this project, I certify that:
