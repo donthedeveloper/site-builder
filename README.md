@@ -1,72 +1,38 @@
-# site-builder
+# Site-builder
 
-## description
+## Description
 
-This primary goal of this project is to create an open source opportunity that's junior developer friendly. This project is aimed at creating a toolset that solves problems for UX, designers, project managers, and entrepreneurs. The first set of features will be focused on creating a live mockup tool in which ux and designers can pair together.
+This primary goal of this project is to create an open source opportunity that's junior developer friendly. This project is aimed at creating a toolset that solves problems for UX, designers, project managers, and entrepreneurs. The first set of features will be focused on creating a live mockup tool in which UX and designers can pair together.
 
-## environment setup (mac)
+## Install Docker For Mac
 
-The following steps will help you set up tools to not only run this project, but make your life as a developer more convenient as well! You may skip any of these steps if you've already completed them.
+https://docs.docker.com/docker-for-mac/install/
 
+## Install Docker For Windows
 
-### Install Node and NPM
+https://docs.docker.com/docker-for-windows/install/
 
-`sudo npm install npm -g`
+## Download project
 
----
+Once Docker is installed and you are logged in, it's time to download the project. We will talk about this more in the [CONTRIBUTING](CONTRIBUTING.md) file, but a common practice to contributing to open source is to fork a project and then clone your forked version. This is the first step in getting the project up and running on your computer.
 
-### Install Homebrew
+Fork:
+![fork the repository](fork.png)
 
-`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+Clone:
+![clone the fork](clone.png)
 
----
+Once you've cloned the forked version and it's on your computer, make sure you are in the folder of the project, and then type: `docker-compose up`
 
-### If Homebrew is already installed, make sure it is up-to-date
+This will create Node and Mongo containers with Docker. It's basically a self-contained environment that sets everything up for you because of the provided configuration we have set in the project. Give it up to 5 minutes to build everything. Once you see that the server is listening on port 3000, visit `localhost:3000` in the browser and you should see a basic header and text on the page. If not, let us know!
 
-`brew update`
+## Congratulations
 
----
+At this point, you should be able to view the website and make changes. All changes you will make should be in the `app` folder. We use Nodemon which will automatically re-start (faster than the initial setup) the server when you make any changes except what's in `app/browser/src`. Any changes made to files in the `app/browser/src` folder will require you to refresh your browser. Be sure to check out [CONTRIBUTING](CONTRIBUTING.md) to find out how to merge your code in!
 
-### Install MongoDB
+## Alternative setup
 
-`brew install mongodb`
-
-You can verify that it's installed with the following command:
-`which mongodb`
-
-You should see something like:
-`/usr/local/bin/mongod`
-
----
-
-### Create directory for MongoDB data
-`mkdir -p /data/db`
-
-If you get a permission error such as:
-`mkdir: /data/db: Permission denied`
-
-Run it with sudo:
-`sudo mkdir -p /data/db`
-
----
-
-### Start up MongoDB
-
-You may now try running MongoDB with the command:
-`mongod`
-
-If you get an error that contains the text `Permission Denied`, loosen up the permissions with this command:
-`sudo chmod 777 /data/db`
-
-Now try running `mongod`. You should get long-winded messaging with a line similar to `waiting for connections on port 27017`.
-
-In order to break out of this (as this terminal is now listening for connections to MongoDB), hold `Ctrl` and press `C`.
-
----
-
-## Congratulations! You've successfully installed MongoDB.
-
-Ok, now the real test. Run this command to start up the server:
-`npm run dev`
-
-In your browser, visit `localhost:3000`. Does it work? Let us know!
+If you're comfortable setting up Node and MongoDB, feel free to set those up manually. Instead of running `docker-compose` in the root directory of the project, you will need to:
+1) move up into the app directory with `cd app`
+2) run the development setup command `npm run dev`
+3) create an `.env` file in the `app` directory and enter in your Mongo URI (ex: `MONGO_URI=mongodb://user:password@localhost:3000/dbname`)
