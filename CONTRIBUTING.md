@@ -24,13 +24,13 @@ Once you find an issue that you would like to start working on, or even if just 
 
 This will allow you to make a copy of the project that you now control. You can now make any changes to that project without affecting the original.
 
-![fork the repository](https://ibb.co/FqS5tYP)
+![fork the repository](fork.png)
 
 ## Clone the fork (download the copy)
 
 Make sure you have git installed. You'll want to clone your forked copy of the repository to get it downloaded to your local machine.
 
-![clone the fork](https://ibb.co/qNn4jmz)
+![clone the fork](clone.png)
 
 ## Create a git branch on your local computer
 
