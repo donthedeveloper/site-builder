@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "npm install --verbose && npm run sass && npm run watch",
-    "watch": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
+    "dev": "npm run sass && npm run watch",
+    "watch": "start /B npm run sass-watch & start /B npm run webpack-watch & start /B npm run start-dev",
     "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node app.js",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/donthedeveloper/site-builder#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "connect-mongo": "^2.0.2",

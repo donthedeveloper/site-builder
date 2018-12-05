@@ -1,0 +1,30 @@
+.form {
+  @import url("https://fonts.googleapis.com/css?family=Roboto");
+  font-family: "Roboto", sans-serif;
+  $light-grey: #f5f9fa;
+  $blue: #2196f3;
+  max-width: 66%;
+  margin: 10px auto;
+
+  &__label {
+    display: block;
+    padding: 20px 0;
+    font-weight: 100;
+    color: grey;
+  }
+  &__input {
+    display: block;
+    outline: none;
+    border: 0;
+    color: grey;
+    border-bottom: solid grey;
+    background-color: $light-grey;
+    width: 100%;
+    padding: 5px;
+
+    &:focus {
+      color: $blue;
+      border-bottom: solid $blue;
+    }
+  }
+}

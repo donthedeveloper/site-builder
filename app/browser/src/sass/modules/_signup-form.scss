@@ -1,0 +1,47 @@
+.signup-form {
+  @import url("https://fonts.googleapis.com/css?family=Roboto");
+  font-family: "Roboto", sans-serif;
+
+  $blue: #2196f3;
+  $light-grey: #f5f9fa;
+  $green: #5fba7d;
+
+  position: relative;
+  background: $light-grey;
+  top: 100px;
+  width: 500px;
+  margin: 0 auto;
+
+  &__form-group {
+    padding-bottom: 20px;
+  }
+
+  &__title {
+    background: $blue;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  &__submit-button {
+    display: block;
+    background: $green;
+    color: white;
+    width: 66%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px 0;
+    border: 1px $green;
+    cursor: pointer;
+    &:active {
+      background: white;
+      border: 1px white;
+      color: $green;
+      outline: none;
+    }
+    &:focus {
+      border: 1px white;
+      outline: none;
+    }
+  }
+}
