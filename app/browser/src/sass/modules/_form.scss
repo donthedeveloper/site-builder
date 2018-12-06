@@ -12,6 +12,12 @@
     font-weight: 100;
     color: grey;
   }
+
+  &__error {
+    color: red;
+    margin-left: 20px;
+    font-size: 0.8rem;
+  }
   &__input {
     display: block;
     outline: none;
