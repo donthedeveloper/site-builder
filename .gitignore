@@ -61,4 +61,7 @@ typings/
 .next
 
 # public
-app/browser/public
+browser/public
+
+# causing problems with initial setups  on different operating systems - todo: investigate
+package-lock.json
