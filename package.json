@@ -1,11 +1,11 @@
 {
   "name": "site-builder",
   "version": "1.0.0",
-  "description": "",
+  "description": "This primary goal of this project is to create an open source opportunity that's junior developer friendly. This project is aimed at creating a toolset that solves problems for UX, designers, project managers, and entrepreneurs. The first set of features will be focused on creating a live mockup tool in which ux and designers can pair together.",
   "main": "app.js",
   "scripts": {
-    "dev": "npm install && npm run sass && npm run watch",
-    "watch": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
+    "dev": "npm run sass && npm run watch",
+    "watch": "start /B npm run sass-watch & start /B npm run webpack-watch & start /B npm run start-dev",
     "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node app.js",
@@ -56,5 +56,6 @@
     "redux-logger": "^3.0.6",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
-  }
+  },
+  "keywords": []
 }
