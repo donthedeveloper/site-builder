@@ -46,7 +46,13 @@ UserSchema.pre('save', function(next) {
   } else {
     next();
   }
-})
+});
+
+UserSchema.methods.toJSON = function() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+ }
 
 // Create User model from schema
 const User = mongoose.model('User', UserSchema);
