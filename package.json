@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "npm install --verbose && npm run sass && npm run watch",
+    "dev": "npm install && npm run sass && npm run watch",
     "watch": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
     "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",

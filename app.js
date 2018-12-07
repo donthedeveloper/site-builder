@@ -10,7 +10,7 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const mongoUri = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://mongodb:27017/siteBuilder';
+const mongoUri = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(mongoUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
