@@ -15,10 +15,12 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
+      trim: true,
       validate: emailValidator
     },
     password: {
       type: String,
+      trim: true,
       required: true
     }
   },

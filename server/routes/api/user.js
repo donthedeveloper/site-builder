@@ -7,11 +7,11 @@ const User = require('../../models/user');
 
 // POST User Registration
 router.post('/register', (req, res) => {
-  const email = req.body.email.trim();
-  const password = req.body.password.trim();
+  const email = req.body.email;
+  const password = req.body.password;
 
-  if (!email)
-    res.status(400).json({ email: 'You must provide an email address.' });
+  // if (!email)
+  //   res.status(400).json({ email: 'You must provide an email address.' });
 
   User.findOne({ email }).then(user => {
     if (user) {
