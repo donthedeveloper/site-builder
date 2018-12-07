@@ -4,13 +4,15 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "npm run start-dev & npm run sass & npm run sass-watch & npm run webpack-watch",
-    "sass": "./node_modules/node-sass/bin/node-sass --recursive browser/src/sass --output browser/public/css",
-    "sass-watch": "./node_modules/node-sass/bin/node-sass --watch --recursive browser/src/sass --output browser/public/css",
+    "dev": "npm install && npm run sass && npm run watch",
+    "watch": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
+    "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
+    "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node app.js",
-    "start-dev": "./node_modules/nodemon/bin/nodemon.js app.js",
+    "start-dev": "nodemon app.js --ignore ./browser/src --ignore ./browser/public",
     "test": "test",
-    "webpack-watch": "./node_modules/webpack/bin/webpack.js -w"
+    "webpack": "webpack",
+    "webpack-watch": "webpack -w"
   },
   "repository": {
     "type": "git",
