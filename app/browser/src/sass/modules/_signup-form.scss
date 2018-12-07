@@ -9,7 +9,8 @@
   position: relative;
   background: $light-grey;
   top: 100px;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
 
   &__form-group {
@@ -42,6 +43,9 @@
     &:focus {
       border: 1px white;
       outline: none;
+    }
+    &:disabled {
+      background: grey;
     }
   }
 }

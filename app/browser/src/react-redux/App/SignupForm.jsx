@@ -9,9 +9,13 @@ class signupForm extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      confirmPasswordError: ""
+      errors: {
+        confirmPassword: ""
+      },
+      buttonDisabled: true
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleChange(key, e) {
@@ -19,30 +23,59 @@ class signupForm extends Component {
       [key]: e
     });
   }
-  //check if password and confirmPassword fields match. If not, set error message to state.
+  onSubmit(e) {
+    e.preventDefault();
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    axios.post("/api/user", { user }).then(res => {
+      console.log(res);
+      console.log(res.data);
+    });
+  }
   componentDidUpdate(prevProps, prevState) {
+    //check if password and confirmPassword fields match. If not, set error message to state.
+
     if (
-      prevState.confirmPassword != this.state.confirmPassword &&
-      this.state.confirmPassword.length > 0 &&
-      this.state.password != this.state.confirmPassword
+      this.state.confirmPassword &&
+      this.state.password != this.state.confirmPassword &&
+      !this.state.errors.confirmPassword
     ) {
-      this.setState({ confirmPasswordError: "Passwords do not match." });
-    } else if (
-      prevState.confirmPassword !== this.state.confirmPassword &&
-      (this.state.confirmPassword === this.state.password ||
-        this.state.confirmPassword.length === 0)
+      this.setState({ errors: { confirmPassword: "Passwords do not match." } });
+    } else if (prevState.errors.confirmPassword) {
+      this.setState({
+        errors: {
+          confirmPassword: ""
+        }
+      });
+    }
+    //disable submit until following requirements are met
+    if (
+      this.state.email &&
+      this.state.password &&
+      this.state.confirmPassword &&
+      this.state.password === this.state.confirmPassword &&
+      prevState.buttonDisabled
     ) {
       this.setState({
-        confirmPasswordError: ""
+        buttonDisabled: false
+      });
+    } else if (
+      this.state.password !== this.state.confirmPassword &&
+      prevState.buttonDisabled == false
+    ) {
+      this.setState({
+        buttonDisabled: true
       });
     }
   }
   render() {
     let name = Object.keys(this.state);
-    let mismatch = "Passwords do not match.";
     return (
       <div className="signup-form">
-        <form action="" className="signup-form__form-group">
+        <form onSubmit={this.onSubmit} className="signup-form__form-group">
           <h1 className="signup-form__title">Signup for Site Builder</h1>
           <Form
             label="Email"
@@ -63,11 +96,16 @@ class signupForm extends Component {
             name={name[2]}
             value={this.state[2]}
             handleChange={this.handleChange}
-            error={this.state.error}
+            error={this.state.errors.confirmPassword}
             type="password"
           />
           <div>
-            <button className="signup-form__submit-button">Signup!</button>
+            <button
+              disabled={this.state.buttonDisabled}
+              className="signup-form__submit-button"
+            >
+              Signup!
+            </button>
           </div>
         </form>
       </div>
