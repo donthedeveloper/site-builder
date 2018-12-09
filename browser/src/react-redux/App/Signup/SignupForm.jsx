@@ -42,7 +42,6 @@ class signupForm extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    console.log(user);
 
     axios
       .post("/api/user", user)
@@ -68,7 +67,6 @@ class signupForm extends Component {
             }
           });
         }
-        console.log(this.state.errors);
       });
   }
   componentDidUpdate(prevProps, prevState) {
