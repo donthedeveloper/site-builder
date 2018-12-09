@@ -24,6 +24,13 @@
     text-align: center;
   }
 
+  &__general-error {
+    display: block;
+    color: red;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
   &__submit-button {
     display: block;
     background: $green;

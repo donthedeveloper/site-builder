@@ -1,5 +1,4 @@
 import React from "react";
-import SignupForm from "./SignupForm";
 
 export default props => {
   return (

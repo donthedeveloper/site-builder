@@ -25,11 +25,8 @@
   },
   "homepage": "https://github.com/donthedeveloper/site-builder#readme",
   "dependencies": {
-<<<<<<< HEAD:app/package.json
     "axios": "^0.18.0",
-=======
     "bcrypt": "^3.0.2",
->>>>>>> master:package.json
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "connect-mongo": "^2.0.2",

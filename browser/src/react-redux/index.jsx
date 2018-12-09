@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import App from "./App/App.react.jsx";
-import SignupForm from "./App/SignupForm";
+import SignupForm from "./App/Signup/SignupForm";
 
 ReactDOM.render(
   <Provider store={store}>
