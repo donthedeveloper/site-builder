@@ -10,13 +10,15 @@ const app = express();
 const MongoStore = require('connect-mongo')(session);
 
 const env = process.env.NODE_ENV;
-
+// console.log('process.nextTick ', process.nextTick, '   <-');
 const mongoUri =
-  env === 'development'
+  env === 'development' || env === 'test'
     ? 'mongodb://localhost:27017/siteBuilder'
     : process.env.mongo_uri;
-console.log('env: ', env, ' mongoUri: ', process.env.NODE_ENV);
-mongoose.connect(mongoUri);
+mongoose.connect(
+  mongoUri,
+  { useNewUrlParser: true }
+);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -25,7 +27,7 @@ app.use(
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
     saveUnitialized: false,
-    secret: env === 'development' ? 'imasecret' : process.env.SESSION_SECRET,
+    secret: env === 'production' ? process.env.SESSION_SECRET : 'imasecret',
     store: new MongoStore({
       mongooseConnection: db
     })
