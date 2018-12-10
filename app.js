@@ -26,7 +26,7 @@ app.use(
     saveUnitialized: false,
     secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
-      mongooseConnection: db
+        mongooseConnection: db
     })
   })
 );
@@ -36,8 +36,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 nunjucks.configure('./server/templates', {
-  autoescape: true,
-  express: app
+    autoescape: true,
+    express: app
 });
 
 app.engine('html', nunjucks.render);
