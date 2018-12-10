@@ -50,7 +50,6 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
-    "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
     "jest-webpack": "^0.5.1",
     "node-sass": "^4.10.0",
