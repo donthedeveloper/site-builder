@@ -9,8 +9,7 @@
     "sass-watch": "./node_modules/node-sass/bin/node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node app.js",
     "start-dev": "./node_modules/nodemon/bin/nodemon.js server.js",
-    "test-server": "NODE_ENV=test jest --config ./server/jest.config.js",
-    "test": "jest",
+    "test": "NODE_ENV=test jest --config ./server/jest.config.js",
     "webpack-watch": "./node_modules/webpack/bin/webpack.js -w"
   },
   "repository": {
@@ -42,8 +41,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
-    "@babel/plugin-transform-async-to-generator": "^7.1.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
@@ -51,7 +48,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0-beta.6",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
     "jest-webpack": "^0.5.1",

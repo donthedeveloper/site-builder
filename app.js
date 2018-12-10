@@ -10,11 +10,8 @@ const app = express();
 const MongoStore = require('connect-mongo')(session);
 
 const env = process.env.NODE_ENV;
-// console.log('process.nextTick ', process.nextTick, '   <-');
-const mongoUri =
-  env === 'development' || env === 'test'
-    ? 'mongodb://localhost:27017/siteBuilder'
-    : process.env.mongo_uri;
+
+const mongoUri = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(
   mongoUri,
   { useNewUrlParser: true }
@@ -27,7 +24,7 @@ app.use(
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
     saveUnitialized: false,
-    secret: env === 'production' ? process.env.SESSION_SECRET : 'imasecret',
+    secret: process.env.SESSION_SECRET ? process.env.SESSION_SECRET : 'imasecret',
     store: new MongoStore({
       mongooseConnection: db
     })
