@@ -32,7 +32,7 @@ app.use(
 );
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 nunjucks.configure('./server/templates', {
