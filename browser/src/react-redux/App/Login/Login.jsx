@@ -6,6 +6,8 @@ export default class Login extends React.Component {
     super(props)
     this.state = {
       isValidated: false,
+      validEmail: false,
+      validPassword: false,
       email: '',
       password: '',
       emailError: '',
@@ -26,13 +28,29 @@ export default class Login extends React.Component {
 
     //validation checks
     if (name === 'email') {
-      console.log('the email is being checked...')
+      this.validateEmail(value) ? this.setState({ validEmail: true }) : null
     } else {
-      console.log('the password is being checked....')
+      this.validatePassword(value)
+        ? this.setState({ validPassword: true })
+        : this.setState({ validPassword: false })
     }
+    //check if both email and password are valid
+    this.state.validEmail && this.state.validPassword
+      ? this.setState({ isValidated: true })
+      : this.setState({ isValidated: false })
+  }
+
+  validateEmail(value) {
+    //insert email validation logic here
+    return value.length >= 3 ? true : false
+  }
+  validatePassword(value) {
+    //insert password validation logic here
+    return value.length >= 6 ? true : false
   }
 
   handleSubmit(e) {
+    console.log('submitted')
     e.preventDefault()
   }
 
@@ -54,7 +72,7 @@ export default class Login extends React.Component {
           name='password'
           label='password'
           type='password'
-          minLength={5}
+          minLength={6}
           value={this.state.password}
           onChange={this.handleInputChange}
         />
