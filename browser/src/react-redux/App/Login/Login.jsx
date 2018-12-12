@@ -81,7 +81,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <form className='login-form' onSubmit={this.handleSubmit}>
-        <div>{this.state.emailError}</div>
+        <div className='login-error-msg'>{this.state.emailError}</div>
         <label htmlFor='email'>E-mail:</label>
         <input
           name='email'
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
           value={this.state.email}
           onChange={this.handleInputChange}
         />
-        <div>{this.state.passwordError}</div>
+        <div className='login-error-msg'>{this.state.passwordError}</div>
         <label htmlFor='password'>Password:</label>
         <input
           name='password'
