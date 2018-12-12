@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -15,6 +14,7 @@ export default class Login extends React.Component {
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.displayErrors = this.displayErrors.bind(this)
   }
 
   handleInputChange(event) {
@@ -28,7 +28,9 @@ export default class Login extends React.Component {
 
     //validation checks
     if (name === 'email') {
-      this.validateEmail(value) ? this.setState({ validEmail: true }) : null
+      this.validateEmail(value)
+        ? this.setState({ validEmail: true })
+        : this.setState({ validEmail: false })
     } else {
       this.validatePassword(value)
         ? this.setState({ validPassword: true })
@@ -49,8 +51,24 @@ export default class Login extends React.Component {
     return value.length >= 6 ? true : false
   }
 
+  displayErrors() {
+    //incoming massive if/else monster.
+    if (!this.state.validEmail && !this.state.validPassword) {
+      this.setState({ emailError: 'Please enter a valid e-mail:' })
+      this.setState({ passwordError: 'Please enter a valid password:' })
+    } else if (!this.state.validPassword && this.state.validEmail) {
+      this.setState({ passwordError: 'Please enter a valid password:' })
+      this.setState({ emailError: '' })
+    } else if (!this.state.validEmail && this.state.validPassword) {
+      this.setState({ emailError: 'Please enter a valid e-mail:' })
+      this.setState({ passwordError: '' })
+    } else {
+      this.setState({ emailError: '', passwordError: '' })
+    }
+  }
+
   handleSubmit(e) {
-    console.log('submitted')
+    this.displayErrors()
     e.preventDefault()
   }
 
@@ -76,7 +94,11 @@ export default class Login extends React.Component {
           value={this.state.password}
           onChange={this.handleInputChange}
         />
-        <button disabled={!this.state.isValidated}>Submit</button>
+        <button
+          onMouseEnter={this.displayErrors}
+          disabled={!this.state.isValidated}>
+          Submit
+        </button>
       </form>
     )
   }
