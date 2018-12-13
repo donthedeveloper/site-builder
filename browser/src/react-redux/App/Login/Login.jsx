@@ -57,7 +57,7 @@ export default class Login extends React.Component {
   }
 
   displayErrors() {
-    //incoming massive if/else statement- refactor.
+    //displayErrors() will update the state for the corresponding input that has not satisfied the validation reqs.
     if (!this.state.validEmail && !this.state.validPassword) {
       this.setState({ emailError: 'Please enter a valid e-mail:' })
       this.setState({ passwordError: 'Please enter a valid password:' })
