@@ -1,7 +1,7 @@
 {
   "name": "site-builder",
   "version": "1.0.0",
-  "description": "This primary goal of this project is to create an open source opportunity that's junior developer friendly. This project is aimed at creating a toolset that solves problems for UX, designers, project managers, and entrepreneurs. The first set of features will be focused on creating a live mockup tool in which ux and designers can pair together.",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "dev-mac": "npm install && npm run sass && npm run watch-mac",

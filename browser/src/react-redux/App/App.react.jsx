@@ -1,10 +1,30 @@
-import React from "react";
+import React from 'react';
+import { Route, Switch, Link } from 'react-router-dom';
+
+import SignupPage from './SignupPage';
 
 export default props => {
   return (
     <div>
-      <h1>Dis be my header</h1>
-      <p>Hello</p>
+      <nav>
+        <ul>
+          <li>
+            <Link to='/'>Home</Link>
+          </li>
+          <li>
+            <Link to='/signup'>Sign Up</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+        <Switch>
+          <Route path='/signup' component={SignupPage} />
+        </Switch>
+      </div>
+
     </div>
+
+
   );
 };

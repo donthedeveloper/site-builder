@@ -1,11 +1,7 @@
-.signup-form {
-  @import url("https://fonts.googleapis.com/css?family=Roboto");
-  font-family: "Roboto", sans-serif;
+@import  './../utilities/config';
 
-  $blue: #2196f3;
-  $light-grey: #f5f9fa;
-  $green: #5fba7d;
-
+.signup-page {
+  font-family: 'Roboto', sans-serif;
   position: relative;
   background: $light-grey;
   top: 100px;
@@ -13,7 +9,7 @@
   width: 100%;
   margin: 0 auto;
 
-  &__form-group {
+  &__form {
     padding-bottom: 20px;
   }
 

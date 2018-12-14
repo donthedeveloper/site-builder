@@ -1,8 +1,7 @@
-.form {
-  @import url("https://fonts.googleapis.com/css?family=Roboto");
-  font-family: "Roboto", sans-serif;
-  $light-grey: #f5f9fa;
-  $blue: #2196f3;
+@import './../utilities/config';
+
+.input {
+  font-family: 'Roboto', sans-serif;
   max-width: 66%;
   margin: 10px auto;
 
@@ -18,7 +17,7 @@
     margin-left: 20px;
     font-size: 0.8rem;
   }
-  &__input {
+  &__input-field {
     display: block;
     outline: none;
     border: 0;
