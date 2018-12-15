@@ -4,13 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "npm install && npm run sass && npm run watch",
-    "watch": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
+    "dev-mac": "npm install && npm run sass && npm run watch-mac",
+    "dev-windows": "npm install && npm run sass && npm run watch-windows",
     "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",
-    "start": "node server.js",
-    "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
+    "start": "node app.js",
+    "start-dev": "nodemon app.js --ignore ./browser/src --ignore ./browser/public",
     "test": "NODE_ENV=test jest --config ./server/jest.config.js",
+    "watch-mac": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
+    "watch-windows": "start /B npm run sass-watch & start /B npm run webpack-watch & start /B npm run start-dev",
     "webpack": "webpack",
     "webpack-watch": "webpack -w"
   },
@@ -47,6 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/polyfill": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
