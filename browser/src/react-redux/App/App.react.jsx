@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
-
 import SignupPage from './SignupPage';
 
 export default props => {
@@ -20,6 +19,7 @@ export default props => {
       <div>
         <Switch>
           <Route path='/signup' component={SignupPage} />
+
         </Switch>
       </div>
 

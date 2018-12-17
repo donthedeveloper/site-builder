@@ -1,5 +1,10 @@
 const initialState = null;
 
 export default (state = initialState, action) => {
-    return state;
+    switch (action.type) {
+        case 'NEW_USER_SUBMITTED':
+            return { ...state, ...action.payload }
+        default:
+            return state
+    }
 }

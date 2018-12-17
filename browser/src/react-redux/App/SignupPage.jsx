@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import setUser from './setUser.action'
 import axios from 'axios';
 
 const initialState = {
@@ -10,7 +14,22 @@ const initialState = {
   passwordError: ''
 };
 
-class signupinput extends Component {
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setUser(user))
+    }
+  }
+}
+
+class SignupPage extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    setUser: PropTypes.func.isRequired
+  };
+
   state = initialState
 
   handleChange = (event) => {
@@ -49,11 +68,12 @@ class signupinput extends Component {
     axios.post('/api/user', user)
       .then(res => {
         if (res.request.status === 201) {
+          //set current user with redux store.
+          this.props.setUser({ email: user.email });
+          this.props.history.push('/')
         }
       })
       .catch(err => {
-
-
         if (err.response.data.error.errors) {
           const errors = err.response.data.error.errors;
 
@@ -111,10 +131,10 @@ class signupinput extends Component {
               <span className='input__error'>{this.getConfirmPasswordError()}</span>
             </label>
             <input
-              type='password'
               name='confirmPassword'
-              onChange={this.handleChange}
               value={this.state.confirmPassword}
+              type='password'
+              onChange={this.handleChange}
               className='input__input-field'
             />
           </div>
@@ -133,4 +153,4 @@ class signupinput extends Component {
   }
 }
 
-export default signupinput;
+export default withRouter(connect(null, mapDispatchToProps)(SignupPage));
