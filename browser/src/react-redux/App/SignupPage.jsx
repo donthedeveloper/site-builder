@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import setUser from './setUser.action'
 import axios from 'axios';
@@ -20,6 +19,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(setUser(user))
     }
   }
+}
+
+const mapStateToProps = state => {
+  return { user: state.user }
 }
 
 class SignupPage extends Component {
@@ -65,7 +68,6 @@ class SignupPage extends Component {
       .then(res => {
         //set current user with redux store.
         this.props.setUser({ email: user.email });
-        this.props.history.push('/')
       })
       .catch(err => {
         if (err.response.data.error.errors) {
@@ -81,7 +83,11 @@ class SignupPage extends Component {
         }
       });
   }
-
+  componentDidUpdate() {
+    if (this.props.user) {
+      this.props.history.push('/')
+    }
+  }
   render() {
     return (
       <div className='signup-page'>
@@ -147,4 +153,4 @@ class SignupPage extends Component {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(SignupPage));
+export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
