@@ -1,6 +1,5 @@
 require('dotenv').config();
 const bodyParser = require('body-parser');
-const chalk = require('chalk');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -10,10 +9,13 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const mongoUri = process.env.MONGO_URI
-  ? process.env.MONGO_URI
-  : 'mongodb://localhost:27017/siteBuilder';
-mongoose.connect(mongoUri);
+const env = process.env.NODE_ENV;
+
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
+mongoose.connect(
+  mongoUri,
+  { useNewUrlParser: true }
+);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -22,9 +24,7 @@ app.use(
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
     saveUnitialized: false,
-    secret: process.env.SESSION_SECRET
-      ? process.env.SESSION_SECRET
-      : 'imasecret',
+    secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
       mongooseConnection: db
     })
@@ -47,9 +47,5 @@ app.use(express.static('browser/public'));
 
 const router = require('./server/routes');
 app.use('/', router);
-
-app.listen(process.env.PORT || 3000, function() {
-  console.log(chalk.blue(`App is listening on port ${this.address().port}`));
-});
 
 module.exports = app;
