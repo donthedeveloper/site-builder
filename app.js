@@ -9,8 +9,6 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const env = process.env.NODE_ENV;
-
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(
   mongoUri,
