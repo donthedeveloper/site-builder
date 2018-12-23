@@ -67,7 +67,7 @@ class SignupPage extends Component {
     axios.post('/api/user', user)
       .then(res => {
         //set current user with redux store.
-        this.props.setUser({ email: user.email });
+        this.props.setUser({ email: res.data.user.email });
       })
       .catch(err => {
         if (err.response.data.error.errors) {
