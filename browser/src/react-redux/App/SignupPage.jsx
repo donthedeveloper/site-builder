@@ -28,7 +28,10 @@ const mapStateToProps = state => {
 class SignupPage extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    setUser: PropTypes.func.isRequired
+    setUser: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      email: PropTypes.string
+    })
   };
 
   state = initialState
