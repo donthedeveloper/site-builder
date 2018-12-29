@@ -13,24 +13,17 @@ const initialState = {
   passwordError: ''
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: user => {
-      dispatch(setUser(user))
-    }
-  }
-}
-
-const mapStateToProps = state => {
-  return { user: state.user }
-}
 
 class SignupPage extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
     user: PropTypes.shape({
-      email: PropTypes.string
+      _id: PropTypes.string,
+      email: PropTypes.string,
+      createdAt: PropTypes.string,
+      updatedAt: PropTypes.string,
+      __v: PropTypes.number
     })
   };
 
@@ -48,7 +41,7 @@ class SignupPage extends Component {
       : null;
   }
 
-  enableButton = () => {
+  isSubmitButtonEnabled = () => {
     return !(
       this.state.confirmPassword &&
       this.state.password &&
@@ -70,7 +63,7 @@ class SignupPage extends Component {
     axios.post('/api/user', user)
       .then(res => {
         //set current user with redux store.
-        this.props.setUser({ email: res.data.user.email });
+        this.props.setUser(res.data.user);
       })
       .catch(err => {
         if (err.response.data.error.errors) {
@@ -144,7 +137,7 @@ class SignupPage extends Component {
 
           <div>
             <button
-              disabled={this.enableButton()}
+              disabled={this.isSubmitButtonEnabled()}
               className='signup-page__submit-button'
             >
               Signup!
@@ -154,6 +147,18 @@ class SignupPage extends Component {
       </div>
     );
   }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setUser(user))
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return { user: state.user }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
