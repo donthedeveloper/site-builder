@@ -9,10 +9,7 @@ const User = require('../../models/user');
 router.post('/login', login);
 
 function login(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  User.authenticate(email, password, function(err, user) {
+  User.authenticate(req.body.email, req.body.password, function(err, user) {
     if (err) {
       return res.json({ message: err.message });
     } else {
