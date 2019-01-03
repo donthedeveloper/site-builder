@@ -9,13 +9,18 @@ const User = require('../../models/user');
 router.post('/login', login);
 
 function login(req, res) {
-  User.authenticate(req.body.email, req.body.password, function(err, user) {
-    if (err) {
-      return res.json({ message: err.message });
-    } else {
-      return res.status(200).json(user);
-    }
-  });
+  User.authenticate(req.body.email, req.body.password)
+    .then(
+      user => {
+        res.status(200).json(user);
+      },
+      err => {
+        res.status(500).json(err);
+      }
+    )
+    .catch(err => {
+      res.status(500).json(err);
+    });
 }
 
 module.exports = router;

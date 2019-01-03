@@ -49,18 +49,33 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-UserSchema.statics.authenticate = function(email, password, callback) {
-  User.findOne({ email }, function(error, user) {
-    if (error) {
-      return callback(error);
-    }
-    if (user && bcrypt.compareSync(password, user.password)) {
-      return callback(null, user);
-    } else {
-      const err = Error('Incorrect username and password combination.');
-      return callback(err);
-    }
-  });
+// UserSchema.statics.authenticate = function(email, password, callback) {
+//   User.findOne({ email }, function(error, user) {
+//     if (error) {
+//       return callback(error);
+//     }
+//     if (user && bcrypt.compareSync(password, user.password)) {
+//       return callback(null, user);
+//     } else {
+//       const err = Error('Incorrect username and password combination.');
+//       return callback(err);
+//     }
+//   });
+// };
+
+UserSchema.statics.authenticate = function(email, password) {
+  return User.findOne({ email })
+    .exec()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        return user;
+      } else {
+        throw {
+          message: 'Incorrect username and password combination.',
+          name: 'AuthenticationError'
+        };
+      }
+    });
 };
 
 UserSchema.methods.toJSON = function() {
