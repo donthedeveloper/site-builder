@@ -6,9 +6,7 @@ const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 
 // POST User Login
-router.post('/login', login);
-
-function login(req, res) {
+router.post('/login', (req, res) => {
   User.authenticate(req.body.email, req.body.password)
     .then(
       user => {
@@ -21,6 +19,6 @@ function login(req, res) {
     .catch(err => {
       res.status(500).json(err);
     });
-}
+});
 
 module.exports = router;
