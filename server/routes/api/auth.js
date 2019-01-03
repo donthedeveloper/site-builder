@@ -10,6 +10,7 @@ router.post('/login', (req, res) => {
   User.authenticate(req.body.email, req.body.password)
     .then(
       user => {
+        req.session.userId = user._id;
         res.status(200).json(user);
       },
       err => {
