@@ -16,7 +16,7 @@ const UserSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
+      required: [true, 'You must provide an email address.'],
       trim: true,
       unique: true,
       validate: emailValidator
@@ -24,7 +24,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       trim: true,
-      required: true
+      required: [true, 'You must provide a password.']
     }
   },
   { timestamps: true }
@@ -37,12 +37,13 @@ UserSchema.plugin(uniqueValidator, {
 UserSchema.pre('save', function(next) {
   const password = this.password;
   if (password) {
-    bcrypt.hash(password, 10)
-      .then((hash) => {
+    bcrypt
+      .hash(password, 10)
+      .then(hash => {
         this.password = hash;
         next();
       })
-      .catch((err) => next(err))
+      .catch(err => next(err));
   } else {
     next();
   }
@@ -52,7 +53,7 @@ UserSchema.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
- }
+};
 
 // Create User model from schema
 const User = mongoose.model('User', UserSchema);
