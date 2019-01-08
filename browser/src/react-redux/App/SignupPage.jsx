@@ -79,8 +79,8 @@ class SignupPage extends Component {
         }
       });
   }
-  componentDidUpdate() {
-    if (this.props.user) {
+  componentDidUpdate(prevProps) {
+    if (this.props.user !== prevProps.user) {
       this.props.history.push('/')
     }
   }
