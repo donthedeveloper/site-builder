@@ -11,14 +11,14 @@ router.post('/login', (req, res) => {
     .then(
       user => {
         req.session.userId = user._id;
-        res.status(200).json(user);
+        return res.status(200).json(user);
       },
       err => {
-        res.status(500).json(err);
+        return res.status(400).json(err);
       }
     )
     .catch(err => {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     });
 });
 
