@@ -1,11 +1,15 @@
 import React from 'react'
-import Login from '../App/Login/Login'
+import { Route, Switch } from 'react-router-dom'
+import SignupPage from './SignupPage'
+import Nav from './Nav'
+
 export default props => {
   return (
     <div>
-      <h1>Dis be my header</h1>
-      <p>Hello</p>
-      <Login />
+      <Nav />
+      <Switch>
+        <Route path='/signup' component={SignupPage} />
+      </Switch>
     </div>
   )
 }
