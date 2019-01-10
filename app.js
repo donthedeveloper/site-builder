@@ -24,18 +24,18 @@ app.use(
     saveUnitialized: false,
     secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
-        mongooseConnection: db
+      mongooseConnection: db
     })
   })
 );
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 nunjucks.configure('./server/templates', {
-    autoescape: true,
-    express: app
+  autoescape: true,
+  express: app
 });
 
 app.engine('html', nunjucks.render);
