@@ -37,22 +37,40 @@ UserSchema.plugin(uniqueValidator, {
 UserSchema.pre('save', function(next) {
   const password = this.password;
   if (password) {
-    bcrypt.hash(password, 10)
-      .then((hash) => {
+    bcrypt
+      .hash(password, 10)
+      .then(hash => {
         this.password = hash;
         next();
       })
-      .catch((err) => next(err))
+      .catch(err => next(err));
   } else {
     next();
   }
 });
 
+UserSchema.statics.authenticate = function(email, password) {
+  return User.findOne({ email })
+    .exec()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        return user;
+      } else {
+        throw {
+          error: {
+            message: 'Incorrect username and password combination.',
+            name: 'AuthenticationError'
+          }
+        };
+      }
+    });
+};
+
 UserSchema.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
- }
+};
 
 // Create User model from schema
 const User = mongoose.model('User', UserSchema);
