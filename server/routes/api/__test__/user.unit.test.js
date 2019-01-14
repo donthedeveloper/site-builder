@@ -61,5 +61,41 @@ describe('User Routes', () => {
           );
         });
     });
+
+    test('POST method with duplicate email', () => {
+      return request(app)
+        .post('/api/user')
+        .type('form')
+        .send('email=test@test')
+        .send('password=test')
+        .then(res => {
+          expect(res.statusCode).toEqual(400);
+          expect(Object.keys(res.body.error.errors).length).toEqual(1);
+          expect(Object.keys(res.body.error.errors)).toEqual(
+            expect.arrayContaining(['email'])
+          );
+          expect(res.body.error.errors.email.message).toBe(
+            'Provide a proper email address.'
+          );
+        });
+    });
+
+    test('POST method with duplicate email', () => {
+      return request(app)
+        .post('/api/user')
+        .type('form')
+        .send('email=test@test.com')
+        .send('password=test')
+        .then(res => {
+          expect(res.statusCode).toEqual(400);
+          expect(Object.keys(res.body.error.errors).length).toEqual(1);
+          expect(Object.keys(res.body.error.errors)).toEqual(
+            expect.arrayContaining(['email'])
+          );
+          expect(res.body.error.errors.email.message).toBe(
+            'Email already exists.'
+          );
+        });
+    });
   });
 });
