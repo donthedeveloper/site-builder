@@ -1,7 +1,15 @@
 const request = require('supertest');
 const app = require('../../../../app');
+const User = require('../../../models/user');
 
 describe('User Routes', () => {
+  let userID;
+  afterAll(() => {
+    if (userID) {
+      User.findByIdAndDelete({ _id: userID }).exec();
+    }
+  });
+
   describe('GET /user', () => {
     test('GET method', done => {
       done();
@@ -95,6 +103,18 @@ describe('User Routes', () => {
           expect(res.body.error.errors.email.message).toBe(
             'Email already exists.'
           );
+        });
+    });
+
+    test.only('POST method with new user', () => {
+      return request(app)
+        .post('/api/user')
+        .type('form')
+        .send('email=newTestUser@test.com')
+        .send('password=test')
+        .then(res => {
+          userID = res.body.user._id;
+          expect(res.statusCode).toEqual(201);
         });
     });
   });
