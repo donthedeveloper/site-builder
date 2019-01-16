@@ -106,7 +106,7 @@ describe('User Routes', () => {
         });
     });
 
-    test.only('POST method with new user', () => {
+    test('POST method with new user', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -115,6 +115,12 @@ describe('User Routes', () => {
         .then(res => {
           userID = res.body.user._id;
           expect(res.statusCode).toEqual(201);
+          expect(Object.keys(res.body)).toEqual(
+            expect.arrayContaining(['user'])
+          );
+          expect(Object.keys(res.body.user)).toEqual(
+            expect.not.arrayContaining(['password'])
+          );
         });
     });
   });
