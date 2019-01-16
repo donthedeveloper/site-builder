@@ -9,7 +9,8 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
+const mongoUri =
+  process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(
   mongoUri,
   { useNewUrlParser: true }
@@ -21,21 +22,21 @@ app.use(
   session({
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
-    saveUnitialized: false,
+    saveUninitialized: false,
     secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
-        mongooseConnection: db
+      mongooseConnection: db
     })
   })
 );
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 nunjucks.configure('./server/templates', {
-    autoescape: true,
-    express: app
+  autoescape: true,
+  express: app
 });
 
 app.engine('html', nunjucks.render);
