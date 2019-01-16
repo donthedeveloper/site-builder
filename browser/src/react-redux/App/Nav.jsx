@@ -12,6 +12,9 @@ const User = () => {
         <li>
           <Link to='/signup'>Sign Up</Link>
         </li>
+        <li>
+          <Link to='/grid'>Konva Grid Example</Link>
+        </li>
       </ul>
     </nav>
   )
