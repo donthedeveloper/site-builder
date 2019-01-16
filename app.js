@@ -15,6 +15,7 @@ mongoose.connect(
   mongoUri,
   { useNewUrlParser: true }
 );
+mongoose.set('useCreateIndex', true);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
