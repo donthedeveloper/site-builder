@@ -14,26 +14,70 @@ const initialState = {
 class LoginPage extends React.Component {
   state = initialState
 
-  handleInputChange = event => {
-    const { target, value } = event.target
-    const name = target.name
-
+  handleChange = event => {
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     })
   }
 
-  handleSubmit = e => {
+  getConfirmPasswordError = () => {
+    return this.state.confirmPassword &&
+      this.state.password !== this.state.confirmPassword
+      ? 'Passwords do not match.'
+      : null
+  }
+
+  isSubmitButtonEnabled = () => {
+    return !(
+      this.state.confirmPassword &&
+      this.state.password &&
+      this.state.confirmPassword &&
+      this.state.password === this.state.confirmPassword
+    )
+  }
+
+  onSubmit = e => {
+    this.setState(initialState)
+
+    e.preventDefault()
+
     const user = {
       email: this.state.email,
       password: this.state.password
     }
-    e.preventDefault()
+
+    axios
+      .post('/api/user', user)
+      .then(res => {
+        //set current user with redux store.
+        this.props.setUser(res.data.user)
+      })
+      .catch(err => {
+        if (err.response.data.error.errors) {
+          const errors = err.response.data.error.errors
+
+          errors.email
+            ? this.setState({ emailError: errors.email.message })
+            : null
+          errors.password
+            ? this.setState({ passwordError: errors.password.message })
+            : null
+        } else {
+          this.setState({
+            generalError: err.response.data.error.message
+          })
+        }
+      })
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.user !== prevProps.user) {
+      this.props.history.push('/')
+    }
   }
 
   render() {
     return (
-      <form className='login-form' onSubmit={this.handleSubmit}>
+      <form className='login-form' onSubmit={this.OnSubmit}>
         <label htmlFor='email'>E-mail:</label>
         <input
           name='email'
@@ -41,7 +85,7 @@ class LoginPage extends React.Component {
           type='email'
           placeholder='email address'
           value={this.state.email}
-          onChange={this.handleInputChange}
+          onChange={this.handleChange}
         />
         <label htmlFor='password'>Password:</label>
         <input
@@ -51,7 +95,7 @@ class LoginPage extends React.Component {
           required
           minLength={6}
           value={this.state.password}
-          onChange={this.handleInputChange}
+          onChange={this.handleChange}
         />
         <button disabled={!this.state.isValidated}>Submit</button>
       </form>
