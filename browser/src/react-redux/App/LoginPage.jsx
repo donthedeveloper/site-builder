@@ -8,7 +8,8 @@ const initialState = {
   password: '',
   emailError: '',
   generalError: '',
-  passwordError: ''
+  passwordError: '',
+  isLoggedIn: false
 }
 
 class LoginPage extends React.Component {
@@ -18,22 +19,6 @@ class LoginPage extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-  }
-
-  getConfirmPasswordError = () => {
-    return this.state.confirmPassword &&
-      this.state.password !== this.state.confirmPassword
-      ? 'Passwords do not match.'
-      : null
-  }
-
-  isSubmitButtonEnabled = () => {
-    return !(
-      this.state.confirmPassword &&
-      this.state.password &&
-      this.state.confirmPassword &&
-      this.state.password === this.state.confirmPassword
-    )
   }
 
   onSubmit = e => {
@@ -47,28 +32,19 @@ class LoginPage extends React.Component {
     }
 
     axios
-      .post('/api/user', user)
+      .post('/api/auth/login', user)
       .then(res => {
-        //set current user with redux store.
-        this.props.setUser(res.data.user)
-      })
-      .catch(err => {
-        if (err.response.data.error.errors) {
-          const errors = err.response.data.error.errors
-
-          errors.email
-            ? this.setState({ emailError: errors.email.message })
-            : null
-          errors.password
-            ? this.setState({ passwordError: errors.password.message })
-            : null
+        if (res.status === 200) {
+          //how to make log in persist?
+          this.setState({ isLoggedIn: true })
+          console.log('login')
         } else {
-          this.setState({
-            generalError: err.response.data.error.message
-          })
+          console.log('nice try buddy')
         }
       })
+      .catch()
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.user !== prevProps.user) {
       this.props.history.push('/')
@@ -77,13 +53,13 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <form className='login-form' onSubmit={this.OnSubmit}>
+      <form className='login-form' onSubmit={this.onSubmit}>
         <label htmlFor='email'>E-mail:</label>
         <input
           name='email'
           label='email'
           type='email'
-          placeholder='email address'
+          placeholder='Email Address'
           value={this.state.email}
           onChange={this.handleChange}
         />
@@ -91,13 +67,14 @@ class LoginPage extends React.Component {
         <input
           name='password'
           label='password'
+          placeholder='Enter Password'
           type='password'
           required
           minLength={6}
           value={this.state.password}
           onChange={this.handleChange}
         />
-        <button disabled={!this.state.isValidated}>Submit</button>
+        <button>Submit</button>
       </form>
     )
   }
