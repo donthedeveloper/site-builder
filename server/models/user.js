@@ -16,7 +16,7 @@ const UserSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
+      required: [true, 'You must provide an email address.'],
       trim: true,
       unique: true,
       validate: emailValidator
@@ -24,7 +24,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       trim: true,
-      required: true
+      required: [true, 'You must provide a password.']
     }
   },
   { timestamps: true }
