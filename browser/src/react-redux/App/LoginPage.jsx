@@ -34,15 +34,13 @@ class LoginPage extends React.Component {
     axios
       .post('/api/auth/login', user)
       .then(res => {
-        if (res.status === 200) {
-          //how to make log in persist?
-          this.setState({ isLoggedIn: true })
-          console.log('login')
-        } else {
-          console.log('nice try buddy')
-        }
+        //how to make log in persist?
+        this.props.logInUser(res.data.user)
+        console.log(res.data.user)
       })
-      .catch()
+      .catch(error => {
+        console.log(error.message)
+      })
   }
 
   componentDidUpdate(prevProps) {
@@ -70,7 +68,7 @@ class LoginPage extends React.Component {
           placeholder='Enter Password'
           type='password'
           required
-          minLength={6}
+          minLength={4}
           value={this.state.password}
           onChange={this.handleChange}
         />

@@ -7,7 +7,8 @@ const User = require('../../models/user')
 
 // POST User Login
 router.post('/login', (req, res) => {
-  return User.authenticate(req.body.email, req.body.password)
+  //doesn't User.authenticate need to be returned here?
+  User.authenticate(req.body.email, req.body.password)
     .then(
       user => {
         req.session.userId = user._id
