@@ -10,8 +10,12 @@ router.post('/', (req, res) => {
   const password = req.body.password;
 
   return User.create({ email, password })
-    .then(user => res.status(201).json({ user: user.toJSON() }))
+    .then(user => {
+      req.session.userId = user._id.toString();
+      res.status(201).json({ user: user.toJSON() })
+    })
     .catch(error => res.status(400).json({ error }));
 });
+
 
 module.exports = router;
