@@ -12,7 +12,7 @@
     "start": "node server.js",
     "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
     "test": "NODE_ENV=test jest --config ./server/jest.config.js",
-    "watch-mac": "npm run sass-watch & npm run webpack-watch & npm run start-dev & browser-sync",
+    "watch-mac": "npm run sass-watch & npm run webpack-watch & npm run start-dev & npm run browser-sync",
     "watch-windows": "start /B npm run sass-watch & start /B npm run webpack-watch & start /B npm run start-dev & start /B npm run browser-sync",
     "webpack": "webpack",
     "webpack-watch": "webpack -w"
