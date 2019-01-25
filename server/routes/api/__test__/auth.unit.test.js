@@ -3,8 +3,12 @@ const app = require('../../../../app');
 const User = require('../../../models/user');
 
 describe('Auth Routes', () => {
-  test('Auth routes here', done => {
-    done();
+  beforeAll(() => {
+    return User.create({ email: 'testUser@test.com', password: 'test' });
+  });
+
+  afterAll(() => {
+    return User.findOneAndDelete({ email: 'testUser@test.com' });
   });
 
   test('Invalid email should return error', () => {
@@ -16,6 +20,21 @@ describe('Auth Routes', () => {
         expect(res.statusCode).toEqual(400);
         expect(res.body.error.message).toBe(
           'Incorrect email and password combination.'
+        );
+      });
+  });
+
+  test('Valid email and password', () => {
+    return request(app)
+      .post('/api/auth/login')
+      .type('form')
+      .send('email=testUser@test.com')
+      .send('password=test')
+      .then(res => {
+        console.log('----User----', res.body);
+        expect(res.statusCode).toEqual(200);
+        expect(Object.keys(res.body)).toEqual(
+          expect.not.arrayContaining(['password'])
         );
       });
   });
