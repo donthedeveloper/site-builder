@@ -34,46 +34,44 @@ class LoginPage extends React.Component {
     axios
       .post('/api/auth/login', user)
       .then(res => {
-        //how to make log in persist?
         this.props.logInUser(res.data.user)
-        console.log(res.data.user)
+        //if login successfull reroute to home
+        this.props.history.push('/')
       })
       .catch(error => {
-        console.log(error.message)
+        const errorMsg = error.response.data.error.message
+        this.setState({ generalError: errorMsg })
       })
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.user !== prevProps.user) {
-      this.props.history.push('/')
-    }
   }
 
   render() {
     return (
-      <form className='login-form' onSubmit={this.onSubmit}>
-        <label htmlFor='email'>E-mail:</label>
-        <input
-          name='email'
-          label='email'
-          type='email'
-          placeholder='Email Address'
-          value={this.state.email}
-          onChange={this.handleChange}
-        />
-        <label htmlFor='password'>Password:</label>
-        <input
-          name='password'
-          label='password'
-          placeholder='Enter Password'
-          type='password'
-          required
-          minLength={4}
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-        <button>Submit</button>
-      </form>
+      <div>
+        <form className='login-form' onSubmit={this.onSubmit}>
+          <label htmlFor='email'>E-mail:</label>
+          <input
+            name='email'
+            label='email'
+            type='email'
+            placeholder='Email Address'
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+          <label htmlFor='password'>Password:</label>
+          <input
+            name='password'
+            label='password'
+            placeholder='Enter Password'
+            type='password'
+            required
+            minLength={4}
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+          <button>Submit</button>
+        </form>
+        <span>{this.state.generalError}</span>
+      </div>
     )
   }
 }
