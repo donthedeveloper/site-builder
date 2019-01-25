@@ -6,10 +6,7 @@ import axios from 'axios'
 const initialState = {
   email: '',
   password: '',
-  emailError: '',
-  generalError: '',
-  passwordError: '',
-  isLoggedIn: false
+  generalError: ''
 }
 
 class LoginPage extends React.Component {
