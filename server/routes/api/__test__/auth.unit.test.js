@@ -24,6 +24,20 @@ describe('Auth Routes', () => {
       });
   });
 
+  test('Invalid password should return error', () => {
+    return request(app)
+      .post('/api/auth/login')
+      .type('form')
+      .send('email=test@test.com')
+      .send('password=wrongpassword')
+      .then(res => {
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error.message).toBe(
+          'Incorrect email and password combination.'
+        );
+      });
+  });
+
   test('Valid email and password', () => {
     return request(app)
       .post('/api/auth/login')
