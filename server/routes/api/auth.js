@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 // User Model
 const User = require('../../models/user');
@@ -29,6 +30,32 @@ router.get('/logout', (req, res) => {
     })
   }
   res.end()
+});
+
+router.post('/forgot', (req, res) => {
+  console.log('req', req.body)
+  User.findOne(req.body)
+    .exec()
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found." })
+      } else {
+        user.resetPassword.token = crypto.randomBytes(20);
+        user.resetPassword.expiration = Date.now() + 3600000;
+        console.log('update user', user)
+        return user
+          .save()
+          .then(result => {
+            console.log(result)
+            res.status(201).json({ message: "success!" })
+          })
+          .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+          })
+      }
+    })
+    .catch(err => res.status(500).json(err))
 })
 
 module.exports = router;
