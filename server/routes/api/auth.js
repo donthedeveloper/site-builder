@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 // User Model
 const User = require('../../models/user');
@@ -33,26 +35,38 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/forgot', (req, res) => {
-  console.log('req', req.body)
   User.findOne(req.body)
     .exec()
     .then(user => {
       if (!user) {
-        return res.status(404).json({ message: "User not found." })
+        return res.status(200).end()
       } else {
-        user.resetPassword.token = crypto.randomBytes(20);
+        user.resetPassword.token = crypto.randomBytes(20).toString('hex');
         user.resetPassword.expiration = Date.now() + 3600000;
-        console.log('update user', user)
-        return user
-          .save()
-          .then(result => {
-            console.log(result)
-            res.status(201).json({ message: "success!" })
-          })
-          .catch(err => {
-            console.log(err)
-            res.status(500).json(err)
-          })
+        user.save()
+
+        let smtpTransport = nodemailer.createTransport({
+          host: 'smtp.sendgrid.net',
+          port: 587,
+          auth: {
+            user: 'apikey',
+            pass: process.env.SG_PASS
+          }
+        })
+
+        let mailOptions = {
+          from: 'test@test.com',
+          to: 'johnmccormick1118@gmail.com',
+          subject: 'Blah Test Blah',
+          text: 'Blah Blah Blah.'
+        };
+
+        smtpTransport.sendMail(mailOptions, function (err) {
+          if (err) {
+            res.status(500).json({ error: err })
+          }
+          res.status(200).end()
+        });
       }
     })
     .catch(err => res.status(500).json(err))
