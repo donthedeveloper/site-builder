@@ -41,7 +41,8 @@ router.post('/forgot', (req, res) => {
       if (!user) {
         return res.status(200).end()
       } else {
-        user.resetPassword.token = crypto.randomBytes(20).toString('hex');
+        const token = crypto.randomBytes(20).toString('hex');
+        user.resetPassword.token = token
         user.resetPassword.expiration = Date.now() + 3600000;
         user.save()
 
@@ -55,10 +56,10 @@ router.post('/forgot', (req, res) => {
         })
 
         let mailOptions = {
-          from: 'test@test.com',
-          to: 'johnmccormick1118@gmail.com',
-          subject: 'Blah Test Blah',
-          text: 'Blah Blah Blah.'
+          from: process.env.PASSWORD_RESET_AUTH_EMAIL,
+          to: user.email,
+          subject: 'Forgot Password Request',
+          html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/reset/${token}">here</a> to finish resetting your password.</p>`
         };
 
         smtpTransport.sendMail(mailOptions, function (err) {
