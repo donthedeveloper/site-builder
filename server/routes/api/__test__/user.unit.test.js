@@ -11,111 +11,89 @@ describe('User Routes', () => {
   });
 
   describe('POST /user', () => {
-    it('will return error without payload', () => {
-      return request(app)
+    it('will return error without payload', async () => {
+      const res = await request(app)
         .post('/api/user')
-        .type('form')
-        .then(res => {
-          expect(res.statusCode).toEqual(400);
-          expect(Object.keys(res.body.error.errors).length).toEqual(2);
-          expect(Object.keys(res.body.error.errors)).toEqual(
-            expect.arrayContaining(['email', 'password'])
-          );
-          expect(res.body.error.errors.email.message).toBe(
-            'You must provide an email address.'
-          );
-          expect(res.body.error.errors.password.message).toBe(
-            'You must provide a password.'
-          );
-        });
+        .type('form');
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj).length).toEqual(2);
+      expect(Object.keys(errorObj)).toEqual(
+        expect.arrayContaining(['email', 'password'])
+      );
+      expect(errorObj.email.message).toBe('You must provide an email address.');
+      expect(errorObj.password.message).toBe('You must provide a password.');
     });
 
-    it('will return error without an email', () => {
-      return request(app)
+    it('will return error without an email', async () => {
+      const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('password=test')
-        .then(res => {
-          expect(res.statusCode).toEqual(400);
-          expect(Object.keys(res.body.error.errors).length).toEqual(1);
-          expect(Object.keys(res.body.error.errors)).toEqual(
-            expect.arrayContaining(['email'])
-          );
-          expect(res.body.error.errors.email.message).toBe(
-            'You must provide an email address.'
-          );
-        });
+        .send('password=test');
+
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj).length).toEqual(1);
+      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(errorObj.email.message).toBe('You must provide an email address.');
     });
 
-    it('return error without a password', () => {
-      return request(app)
+    it('return error without a password', async () => {
+      const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('email=example@test.com')
-        .then(res => {
-          expect(res.statusCode).toEqual(400);
-          expect(Object.keys(res.body.error.errors).length).toEqual(1);
-          expect(Object.keys(res.body.error.errors)).toEqual(
-            expect.arrayContaining(['password'])
-          );
-          expect(res.body.error.errors.password.message).toBe(
-            'You must provide a password.'
-          );
-        });
+        .send('email=example@test.com');
+
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj).length).toEqual(1);
+      expect(Object.keys(errorObj)).toEqual(
+        expect.arrayContaining(['password'])
+      );
+      expect(errorObj.password.message).toBe('You must provide a password.');
     });
 
-    it('will return error with invalid email', () => {
-      return request(app)
+    it('will return error with invalid email', async () => {
+      const res = await request(app)
         .post('/api/user')
         .type('form')
         .send('email=test@test')
-        .send('password=test')
-        .then(res => {
-          expect(res.statusCode).toEqual(400);
-          expect(Object.keys(res.body.error.errors).length).toEqual(1);
-          expect(Object.keys(res.body.error.errors)).toEqual(
-            expect.arrayContaining(['email'])
-          );
-          expect(res.body.error.errors.email.message).toBe(
-            'Provide a proper email address.'
-          );
-        });
+        .send('password=test');
+
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj).length).toEqual(1);
+      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(errorObj.email.message).toBe('Provide a proper email address.');
     });
 
-    it('will return error with duplicate email', () => {
-      return request(app)
+    it('will return error with duplicate email', async () => {
+      const res = await request(app)
         .post('/api/user')
         .type('form')
         .send('email=test@test.com')
-        .send('password=test')
-        .then(res => {
-          expect(res.statusCode).toEqual(400);
-          expect(Object.keys(res.body.error.errors).length).toEqual(1);
-          expect(Object.keys(res.body.error.errors)).toEqual(
-            expect.arrayContaining(['email'])
-          );
-          expect(res.body.error.errors.email.message).toBe(
-            'Email already exists.'
-          );
-        });
+        .send('password=test');
+
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj).length).toEqual(1);
+      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(errorObj.email.message).toBe('Email already exists.');
     });
 
-    it('will return user object on successful create', () => {
-      return request(app)
+    it('will return user object on successful create', async () => {
+      const res = await request(app)
         .post('/api/user')
         .type('form')
         .send('email=newTestUser@test.com')
-        .send('password=test')
-        .then(res => {
-          userID = res.body.user._id;
-          expect(res.statusCode).toEqual(201);
-          expect(Object.keys(res.body)).toEqual(
-            expect.arrayContaining(['user'])
-          );
-          expect(Object.keys(res.body.user)).toEqual(
-            expect.not.arrayContaining(['password'])
-          );
-        });
+        .send('password=test');
+
+      userID = res.body.user._id;
+      expect(res.statusCode).toEqual(201);
+      expect(Object.keys(res.body)).toEqual(expect.arrayContaining(['user']));
+      expect(Object.keys(res.body.user)).toEqual(
+        expect.not.arrayContaining(['password'])
+      );
     });
   });
 });

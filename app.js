@@ -1,3 +1,4 @@
+require('@babel/polyfill');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
