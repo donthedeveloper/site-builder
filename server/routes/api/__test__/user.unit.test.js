@@ -10,14 +10,8 @@ describe('User Routes', () => {
     }
   });
 
-  describe('GET /user', () => {
-    test('GET method', done => {
-      done();
-    });
-  });
-
   describe('POST /user', () => {
-    test('POST method with no payload', () => {
+    it('will return error without payload', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -36,7 +30,7 @@ describe('User Routes', () => {
         });
     });
 
-    test('POST method with no email', () => {
+    it('will return error without an email', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -53,7 +47,7 @@ describe('User Routes', () => {
         });
     });
 
-    test('POST method with no password', () => {
+    it('return error without a password', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -70,7 +64,7 @@ describe('User Routes', () => {
         });
     });
 
-    test('POST method with duplicate email', () => {
+    it('will return error with invalid email', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -88,7 +82,7 @@ describe('User Routes', () => {
         });
     });
 
-    test('POST method with duplicate email', () => {
+    it('will return error with duplicate email', () => {
       return request(app)
         .post('/api/user')
         .type('form')
@@ -106,7 +100,7 @@ describe('User Routes', () => {
         });
     });
 
-    test('POST method with new user', () => {
+    it('will return user object on successful create', () => {
       return request(app)
         .post('/api/user')
         .type('form')
