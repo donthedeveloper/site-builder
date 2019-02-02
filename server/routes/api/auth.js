@@ -22,4 +22,13 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.get('/logout', (req, res) => {
+  if (req.session.userId) {
+    req.session.destroy(err => {
+      err ? res.status(500).json(err) : res.status(200)
+    })
+  }
+  res.end()
+})
+
 module.exports = router;
