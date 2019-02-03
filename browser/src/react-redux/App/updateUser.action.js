@@ -1,6 +1,14 @@
-const updateUser = user => ({
+export const updateUser = user => ({
   type: 'UPDATE_USER',
   user
 })
 
-export default updateUser
+export const loginSuccess = user => ({
+  type: 'LOGIN_SUCCESS',
+  user
+})
+
+export const loginFailure = user => ({
+  type: 'LOGIN_ERROR',
+  user
+})

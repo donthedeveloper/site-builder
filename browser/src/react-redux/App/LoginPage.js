@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import updateUser from './updateUser.action'
+import {loginSuccess, loginFailure} from './updateUser.action'
 import axios from 'axios'
 
 const initialState = {
@@ -19,9 +19,9 @@ class LoginPage extends React.Component {
   }
 
   onSubmit = e => {
-    this.setState(initialState)
-
     e.preventDefault()
+    this.setState(initialState)
+    
 
     const user = {
       email: this.state.email,
@@ -31,14 +31,20 @@ class LoginPage extends React.Component {
     axios
       .post('/api/auth/login', user)
       .then(res => {
-        this.props.updateUser(res.data.user)
-        this.props.history.push('/')
+        this.props.loginSuccess(user)
       })
       .catch(error => {
+        this.props.loginFailure(user)
         const errorMsg = error.response.data.error.message
         this.setState({ generalError: errorMsg })
       })
   }
+  componentDidUpdate() {
+    if (this.props.user.loggedIn === true) {
+      this.props.history.push('/')
+    }
+  }
+
 
   render() {
     return (
@@ -49,6 +55,7 @@ class LoginPage extends React.Component {
             name='email'
             label='email'
             type='email'
+            required
             placeholder='Email Address'
             value={this.state.email}
             onChange={this.handleChange}
@@ -60,11 +67,10 @@ class LoginPage extends React.Component {
             placeholder='Enter Password'
             type='password'
             required
-            minLength={4}
             value={this.state.password}
             onChange={this.handleChange}
           />
-          <button>Submit</button>
+          <button type='submit'>Submit</button>
         </form>
         <span>{this.state.generalError}</span>
       </div>
@@ -74,8 +80,11 @@ class LoginPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logInUser: user => {
-      dispatch(logInUser(user))
+    loginSuccess: user => {
+      dispatch(loginSuccess(user))
+    },
+    loginFailure: user => {
+      dispatch(loginFailure(user))
     }
   }
 }
