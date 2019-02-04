@@ -17,10 +17,7 @@ describe('User Routes', () => {
         .type('form');
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj).length).toEqual(2);
-      expect(Object.keys(errorObj)).toEqual(
-        expect.arrayContaining(['email', 'password'])
-      );
+      expect(Object.keys(errorObj)).toEqual(['email', 'password']);
       expect(errorObj.email.message).toBe('You must provide an email address.');
       expect(errorObj.password.message).toBe('You must provide a password.');
     });
@@ -33,8 +30,7 @@ describe('User Routes', () => {
 
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj).length).toEqual(1);
-      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(Object.keys(errorObj)).toEqual(['email']);
       expect(errorObj.email.message).toBe('You must provide an email address.');
     });
 
@@ -46,10 +42,7 @@ describe('User Routes', () => {
 
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj).length).toEqual(1);
-      expect(Object.keys(errorObj)).toEqual(
-        expect.arrayContaining(['password'])
-      );
+      expect(Object.keys(errorObj)).toEqual(['password']);
       expect(errorObj.password.message).toBe('You must provide a password.');
     });
 
@@ -62,8 +55,7 @@ describe('User Routes', () => {
 
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj).length).toEqual(1);
-      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(Object.keys(errorObj)).toEqual(['email']);
       expect(errorObj.email.message).toBe('Provide a proper email address.');
     });
 
@@ -76,8 +68,7 @@ describe('User Routes', () => {
 
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj).length).toEqual(1);
-      expect(Object.keys(errorObj)).toEqual(expect.arrayContaining(['email']));
+      expect(Object.keys(errorObj)).toEqual(['email']);
       expect(errorObj.email.message).toBe('Email already exists.');
     });
 
@@ -90,7 +81,7 @@ describe('User Routes', () => {
 
       userID = res.body.user._id;
       expect(res.statusCode).toEqual(201);
-      expect(Object.keys(res.body)).toEqual(expect.arrayContaining(['user']));
+      expect(Object.keys(res.body)).toEqual(['user']);
       expect(Object.keys(res.body.user)).toEqual(
         expect.not.arrayContaining(['password'])
       );
