@@ -6,6 +6,7 @@ describe('User Routes', () => {
   let userID;
   afterAll(() => {
     if (userID) {
+      // Delete test user after create test
       User.findByIdAndDelete({ _id: userID }).exec();
     }
   });
@@ -14,10 +15,10 @@ describe('User Routes', () => {
     it('will return error without payload', async () => {
       const res = await request(app)
         .post('/api/user')
-        .type('form');
+        .type('form'); // send post with no payload
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['email', 'password']);
+      expect(Object.keys(errorObj)).toEqual(['email', 'password']); // should return two errors
       expect(errorObj.email.message).toBe('You must provide an email address.');
       expect(errorObj.password.message).toBe('You must provide a password.');
     });
@@ -26,11 +27,10 @@ describe('User Routes', () => {
       const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('password=test');
-
+        .send('password=test'); // send post with no email
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['email']);
+      expect(Object.keys(errorObj)).toEqual(['email']); // should return one error for email
       expect(errorObj.email.message).toBe('You must provide an email address.');
     });
 
@@ -38,11 +38,10 @@ describe('User Routes', () => {
       const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('email=example@test.com');
-
+        .send('email=example@test.com'); // send post with no password
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['password']);
+      expect(Object.keys(errorObj)).toEqual(['password']); // should return one error for password
       expect(errorObj.password.message).toBe('You must provide a password.');
     });
 
@@ -50,12 +49,11 @@ describe('User Routes', () => {
       const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('email=test@test')
+        .send('email=test@test') // send post with invalid email address
         .send('password=test');
-
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['email']);
+      expect(Object.keys(errorObj)).toEqual(['email']); // should return one error for email
       expect(errorObj.email.message).toBe('Provide a proper email address.');
     });
 
@@ -63,12 +61,11 @@ describe('User Routes', () => {
       const res = await request(app)
         .post('/api/user')
         .type('form')
-        .send('email=test@test.com')
+        .send('email=test@test.com') // send post with already used email address
         .send('password=test');
-
       const errorObj = res.body.error.errors;
       expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['email']);
+      expect(Object.keys(errorObj)).toEqual(['email']); // should return one error for email
       expect(errorObj.email.message).toBe('Email already exists.');
     });
 
@@ -77,14 +74,13 @@ describe('User Routes', () => {
         .post('/api/user')
         .type('form')
         .send('email=newTestUser@test.com')
-        .send('password=test');
-
-      userID = res.body.user._id;
+        .send('password=test'); // send post with valid email and password
+      userID = res.body.user._id; // assign newly created test user id to userID
       expect(res.statusCode).toEqual(201);
-      expect(Object.keys(res.body)).toEqual(['user']);
+      expect(Object.keys(res.body)).toEqual(['user']); // should return new user object
       expect(Object.keys(res.body.user)).toEqual(
         expect.not.arrayContaining(['password'])
-      );
+      ); // user object should not contain a password
     });
   });
 });
