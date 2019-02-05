@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {loginSuccess, loginFailure} from './updateUser.action'
+import { loginSuccess, loginFailure } from './User/updateUser.action'
 import axios from 'axios'
 
 const initialState = {
@@ -21,7 +21,6 @@ class LoginPage extends React.Component {
   onSubmit = e => {
     e.preventDefault()
     this.setState(initialState)
-    
 
     const user = {
       email: this.state.email,
@@ -44,8 +43,6 @@ class LoginPage extends React.Component {
       this.props.history.push('/')
     }
   }
-
-
   render() {
     return (
       <div>
