@@ -1,3 +1,4 @@
+require('@babel/polyfill');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -9,11 +10,9 @@ const session = require('express-session');
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
-mongoose.connect(
-  mongoUri,
-  { useNewUrlParser: true }
-);
+const mongoUri =
+  process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
+mongoose.connect(mongoUri, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
