@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import setUser from './setUser.action'
 import axios from 'axios';
 
+import '../../sass/modules/_signup-page.scss'
+
 const initialState = {
   confirmPassword: '',
   email: '',
