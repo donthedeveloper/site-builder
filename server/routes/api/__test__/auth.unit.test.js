@@ -41,8 +41,13 @@ describe('POST Auth/Login', () => {
       .send('email=testUser@test.com')
       .send('password=test'); // send post with valid email and password
     expect(res.statusCode).toEqual(200);
-    expect(Object.keys(res.body)).toEqual(
-      expect.not.arrayContaining(['password'])
-    );
+    console.log(res.body);
+    expect(Object.keys(res.body)).toEqual([
+      '_id',
+      'email',
+      'createdAt',
+      'updatedAt',
+      '__v'
+    ]); // should return user object, without password
   });
 });
