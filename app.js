@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const nunjucks = require('nunjucks');
 const session = require('express-session');
 
 const app = express();
@@ -32,14 +31,6 @@ app.use(
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-nunjucks.configure('./server/templates', {
-  autoescape: true,
-  express: app
-});
-
-app.engine('html', nunjucks.render);
-app.set('view engine', 'html');
 
 app.use(express.static('browser/public'));
 

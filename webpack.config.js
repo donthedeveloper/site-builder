@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     entry: ['./browser/src/react-redux/index.jsx'],
@@ -36,11 +37,15 @@ module.exports = {
         historyApiFallback: true,
         hot: true,
         proxy: {
-            '/api': 'http://localhost:3000/api',
+            '/': 'http://localhost:3000',
         },
         port: 3001,
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'browser', 'src', 'index.html')
+        }),
+
     ]
 };
