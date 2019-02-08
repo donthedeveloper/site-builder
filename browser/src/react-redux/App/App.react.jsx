@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, Switch, } from 'react-router-dom';
-import SignupPage from './SignupPage';
+import { Route, Switch } from 'react-router-dom';
+import SignupPage from './SignupPage/SignupPage.react';
 import Nav from './Nav';
 
 export default props => {
@@ -8,7 +8,7 @@ export default props => {
     <div>
       <Nav />
       <Switch>
-        <Route path='/signup' component={SignupPage} />
+        <Route path="/signup" component={SignupPage} />
       </Switch>
     </div>
   );

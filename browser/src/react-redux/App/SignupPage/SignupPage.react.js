@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import setUser from './setUser.action'
+import setUser from '../setUser.action';
 import axios from 'axios';
 
 const initialState = {
@@ -12,7 +12,6 @@ const initialState = {
   generalError: '',
   passwordError: ''
 };
-
 
 class SignupPage extends Component {
   static propTypes = {
@@ -27,19 +26,20 @@ class SignupPage extends Component {
     })
   };
 
-  state = initialState
+  state = initialState;
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
   getConfirmPasswordError = () => {
-    return (this.state.confirmPassword && this.state.password !== this.state.confirmPassword)
+    return this.state.confirmPassword &&
+      this.state.password !== this.state.confirmPassword
       ? 'Passwords do not match.'
       : null;
-  }
+  };
 
   isSubmitButtonEnabled = () => {
     return !(
@@ -47,10 +47,10 @@ class SignupPage extends Component {
       this.state.password &&
       this.state.confirmPassword &&
       this.state.password === this.state.confirmPassword
-    )
-  }
+    );
+  };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     this.setState(initialState);
 
     e.preventDefault();
@@ -60,7 +60,8 @@ class SignupPage extends Component {
       password: this.state.password
     };
 
-    axios.post('/api/user', user)
+    axios
+      .post('/api/user', user)
       .then(res => {
         //set current user with redux store.
         this.props.setUser(res.data.user);
@@ -69,76 +70,85 @@ class SignupPage extends Component {
         if (err.response.data.error.errors) {
           const errors = err.response.data.error.errors;
 
-          errors.email ? this.setState({ emailError: errors.email.message }) : null
-          errors.password ? this.setState({ passwordError: errors.password.message }) : null
-
+          errors.email
+            ? this.setState({ emailError: errors.email.message })
+            : null;
+          errors.password
+            ? this.setState({ passwordError: errors.password.message })
+            : null;
         } else {
           this.setState({
             generalError: err.response.data.error.message
           });
         }
       });
-  }
+  };
   componentDidUpdate(prevProps) {
     if (this.props.user !== prevProps.user) {
-      this.props.history.push('/')
+      this.props.history.push('/');
     }
   }
   render() {
     return (
-      <div className='signup-page'>
-        <form onSubmit={this.onSubmit} className='signup-page__form'>
-          <h1 className='signup-page__title'>Signup for Site Builder</h1>
-          <p className='signup-page__general-error'>
+      <div className="signup-page">
+        <form onSubmit={this.onSubmit} className="signup-page__form">
+          <h1 className="signup-page__title">Signup for Site Builder</h1>
+          <p className="signup-page__general-error">
             {this.state.generalError}
           </p>
 
-          <div className='signup-page__input'>
-            <label className='signup-page__label'>
+          <div className="signup-page__input">
+            <label className="signup-page__label">
               Email
-              <span className='signup-page__error'>{this.state.emailError}</span>
+              <span className="signup-page__error">
+                {this.state.emailError}
+              </span>
             </label>
             <input
-              name='email'
+              name="email"
               value={this.state.email}
-              type='email'
+              type="email"
               onChange={this.handleChange}
-              className='signup-page__input-field'
+              className="signup-page__input-field"
             />
           </div>
 
-          <div className='signup-page__input'>
-            <label className='signup-page__label'>
+          <div className="signup-page__input">
+            <label className="signup-page__label">
               Password
-              <span className='signup-page__error'>{this.state.passwordError}</span>
+              <span className="signup-page__error">
+                {this.state.passwordError}
+              </span>
             </label>
             <input
-              name='password'
+              name="password"
               value={this.state.password}
-              type='password'
+              type="password"
               onChange={this.handleChange}
-              className='signup-page__input-field'
+              className="signup-page__input-field"
             />
           </div>
 
-          <div className='signup-page__input'>
-            <label className='signup-page__label'>
+          <div className="signup-page__input">
+            <label className="signup-page__label">
               Confirm Password
-              <span className='signup-page__error'>{this.getConfirmPasswordError()}</span>
+              <span className="signup-page__error">
+                {this.getConfirmPasswordError()}
+              </span>
             </label>
             <input
-              name='confirmPassword'
+              name="confirmPassword"
               value={this.state.confirmPassword}
-              type='password'
+              type="password"
               onChange={this.handleChange}
-              className='signup-page__input-field'
+              className="signup-page__input-field"
             />
           </div>
 
           <div>
             <button
               disabled={this.isSubmitButtonEnabled()}
-              className='signup-page__submit-button'
+              className="signup-page__submit-button"
             >
               Signup!
             </button>
@@ -152,13 +162,16 @@ class SignupPage extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     setUser: user => {
-      dispatch(setUser(user))
+      dispatch(setUser(user));
     }
-  }
-}
+  };
+};
 
 const mapStateToProps = state => {
-  return { user: state.user }
-}
+  return { user: state.user };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignupPage);
