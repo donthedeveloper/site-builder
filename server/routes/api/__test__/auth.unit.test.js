@@ -35,13 +35,13 @@ describe('POST Auth/Login', () => {
   });
 
   it('will return user object on successful login', async () => {
+    const email = 'testUser@test.com';
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send('email=testUser@test.com')
+      .send(`email=${email}`)
       .send('password=test'); // send post with valid email and password
     expect(res.statusCode).toEqual(200);
-    console.log(res.body);
     expect(Object.keys(res.body)).toEqual([
       '_id',
       'email',
@@ -49,5 +49,6 @@ describe('POST Auth/Login', () => {
       'updatedAt',
       '__v'
     ]); // should return user object, without password
+    expect(res.body.email).toEqual(email); // returned email should be correct user
   });
 });
