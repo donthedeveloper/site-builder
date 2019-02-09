@@ -70,3 +70,16 @@ Ok, now the real test. Run this command to start up the server:
 `npm run dev-mac` or `npm run dev-windows`
 
 In your browser, visit `localhost:3000`. Does it work? Let us know!
+
+---
+
+## IDE Linter Plugins
+IDE Plugins:
+- Visual Studio Code:
+  - [Stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)
+  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+  - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- Atom
+  - [Stylelint](https://atom.io/packages/linter-stylelint)
+  - [ESLint](https://atom.io/packages/linter-eslint)
+  - [EditorConfig](https://atom.io/packages/editorconfig)
