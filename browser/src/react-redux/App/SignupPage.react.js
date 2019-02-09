@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import setUser from './User/User.action'
+import setUser from './User/User.action';
 import axios from 'axios';
 
 const initialState = {
@@ -16,7 +17,6 @@ const initialState = {
 
 class SignupPage extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
     user: PropTypes.shape({
       _id: PropTypes.string,
@@ -41,7 +41,7 @@ class SignupPage extends Component {
       : null;
   }
 
-  isSubmitButtonEnabled = () => {
+  isSubmitButtonDisabled = () => {
     return !(
       this.state.email &&
       this.state.password &&
@@ -78,12 +78,12 @@ class SignupPage extends Component {
         }
       });
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.user !== prevProps.user) {
-      this.props.history.push('/')
-    }
-  }
+
   render() {
+    const { user } = this.props;
+    if (user) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className='signup-page'>
         <form onSubmit={this.onSubmit} className='signup-page__form'>
@@ -103,6 +103,7 @@ class SignupPage extends Component {
               type='email'
               onChange={this.handleChange}
               className='signup-page__input-field'
+              required
             />
           </div>
 
@@ -117,6 +118,7 @@ class SignupPage extends Component {
               type='password'
               onChange={this.handleChange}
               className='signup-page__input-field'
+              required
             />
           </div>
 
@@ -131,12 +133,13 @@ class SignupPage extends Component {
               type='password'
               onChange={this.handleChange}
               className='signup-page__input-field'
+              required
             />
           </div>
 
           <div>
             <button
-              disabled={this.isSubmitButtonEnabled()}
+              disabled={this.isSubmitButtonDisabled()}
               className='signup-page__submit-button'
               type="submit"
             >

@@ -1,111 +1,128 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import setUser from './User/User.action'
-import axios from 'axios'
+/* eslint-disable react/jsx-filename-extension */
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import setUser from './User/User.action';
 
 const initialState = {
   email: '',
   password: '',
-  error: ''
-}
+  error: '',
+};
 
 class LoginPage extends Component {
+  static propTypes = {
+    setUser: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      _id: PropTypes.string,
+      email: PropTypes.string,
+      createdAt: PropTypes.string,
+      updatedAt: PropTypes.string,
+      __v: PropTypes.number,
+    }),
+  };
+
   state = initialState
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
-    })
+      [event.target.name]: event.target.value,
+    });
   }
 
-  isSubmitButtonEnabled = () => {
+  isSubmitButtonDisabled = () => {
+    const { email, password } = this.state;
     return !(
-      this.state.email &&
-      this.state.password
-    )
+      email && password
+    );
   }
 
-  onSubmit = e => {
-    e.preventDefault()
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = this.state;
     const user = {
-      email: this.state.email,
-      password: this.state.password
-    }
+      email,
+      password,
+    };
     axios
       .post('/api/auth/login', user)
-      .then(res => {
-        this.props.setUser(res.data);
+      .then((res) => {
+        const { setUser } = this.props;
+        setUser(res.data);
       })
-      .catch(error => {
-        const err = error.response.data.error.message
-        this.setState({ error: err })
-      })
+      .catch((error) => {
+        const err = error.response.data.error.message;
+        this.setState({ error: err });
+      });
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.user !== prevProps.user) {
-      this.props.history.push('/')
-    }
-  }
+
   render() {
+    const { error, email, password } = this.state;
+    const { user } = this.props;
+    if (user) {
+      return <Redirect to="/" />;
+    }
     return (
-      <div className='login-page'>
-        <form onSubmit={this.onSubmit} className='login-page__form'>
-          <h1 className='login-page__title'>Login</h1>
-          <p className='login-page__general-error'>
-            {this.state.error}
+      <div className="login-page">
+        <form onSubmit={this.onSubmit} className="login-page__form">
+          <h1 className="login-page__title">Login</h1>
+          <p className="login-page__general-error">
+            {error}
           </p>
 
-          <div className='login-page__input'>
-            <label className='login-page__label'>
+          <div className="login-page__input">
+            <label htmlFor="email" className="login-page__label">
               Email
+              <input
+                id="email"
+                name="email"
+                value={email}
+                type="email"
+                onChange={this.handleChange}
+                className="login-page__input-field"
+                required
+              />
             </label>
-            <input
-              name='email'
-              value={this.state.email}
-              type='email'
-              onChange={this.handleChange}
-              className='login-page__input-field'
-            />
           </div>
 
-          <div className='login-page__input'>
-            <label className='login-page__label'>
+          <div className="login-page__input">
+            <label htmlFor="password" className="login-page__label">
               Password
+              <input
+                id="password"
+                name="password"
+                value={password}
+                type="password"
+                onChange={this.handleChange}
+                className="login-page__input-field"
+                required
+              />
             </label>
-            <input
-              name='password'
-              value={this.state.password}
-              type='password'
-              onChange={this.handleChange}
-              className='login-page__input-field'
-            />
           </div>
 
           <div>
             <button
-              disabled={this.isSubmitButtonEnabled()}
-              className='login-page__submit-button'
+              disabled={this.isSubmitButtonDisabled()}
+              className="login-page__submit-button"
               type="submit"
             >
               Login!
-          </button>
+            </button>
           </div>
         </form>
       </div>
-    )
+    );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: user => {
-      dispatch(setUser(user))
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => {
+    dispatch(setUser(user));
+  },
+});
 
-const mapStateToProps = state => {
-  return { user: state.user }
-}
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

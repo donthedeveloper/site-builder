@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: ['./browser/src/react-redux/index.react.js'],
+  entry: ['./browser/src/react-redux/index.js'],
   mode: 'development',
   module: {
     rules: [{
@@ -16,7 +16,7 @@ module.exports = {
     extensions: ['.js'],
   },
   output: {
-    path: path.resolve(__dirname, '/browser/public/js'),
+    path: path.join(__dirname, 'browser/public/js'),
     filename: 'scripts.js',
   },
   devtool: 'source-map',
