@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import setUser from './setUser.action'
+import setUser from './User/User.action'
 import axios from 'axios';
 
 const initialState = {
@@ -43,7 +43,7 @@ class SignupPage extends Component {
 
   isSubmitButtonEnabled = () => {
     return !(
-      this.state.confirmPassword &&
+      this.state.email &&
       this.state.password &&
       this.state.confirmPassword &&
       this.state.password === this.state.confirmPassword
@@ -51,7 +51,6 @@ class SignupPage extends Component {
   }
 
   onSubmit = (e) => {
-    this.setState(initialState);
 
     e.preventDefault();
 
@@ -139,6 +138,7 @@ class SignupPage extends Component {
             <button
               disabled={this.isSubmitButtonEnabled()}
               className='signup-page__submit-button'
+              type="submit"
             >
               Signup!
             </button>

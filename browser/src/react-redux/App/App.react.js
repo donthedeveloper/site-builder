@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import SignupPage from './SignupPage'
-import Nav from './Nav'
-import LoginPage from './LoginPage'
+import SignupPage from './SignupPage.react'
+import Nav from './Nav.react'
+import LoginPage from './LoginPage.react'
 
 export default props => {
   return (
