@@ -51,8 +51,14 @@ class SignupPage extends Component {
   }
 
   onSubmit = (e) => {
-    this.setState(initialState);
-
+    const { emailError, passwordError, generalError } = this.state;
+    if (emailError || passwordError || generalError) {
+      this.setState({
+        emailError: '',
+        passwordError: '',
+        generalError: '',
+      });
+    }
     e.preventDefault();
 
     const user = {

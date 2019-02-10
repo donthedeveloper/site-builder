@@ -16,7 +16,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    path: path.join(__dirname, '/browser/public/js'),
+    path: path.join(__dirname, 'browser/public/js'),
     filename: 'scripts.js',
   },
   devtool: 'source-map',
