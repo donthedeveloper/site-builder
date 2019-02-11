@@ -6,7 +6,7 @@
   "scripts": {
     "dev-mac": "npm install && npm run sass && npm run watch-mac",
     "dev-windows": "npm install && npm run sass && npm run watch-windows",
-    "eslint": "eslint *.js",
+    "eslint": "eslint . -c ./.eslintrc.json --ext .js,.jsx",
     "sass": "node-sass --recursive browser/src/sass --output browser/public/css",
     "sass-watch": "node-sass --watch --recursive browser/src/sass --output browser/public/css",
     "start": "node server.js",
