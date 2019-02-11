@@ -57,18 +57,6 @@ describe('User Routes', () => {
       expect(errorObj.email.message).toBe('Provide a proper email address.');
     });
 
-    it('will return error with duplicate email', async () => {
-      const res = await request(app)
-        .post('/api/user')
-        .type('form')
-        .send('email=test@test.com') // send post with already used email address
-        .send('password=test');
-      const errorObj = res.body.error.errors;
-      expect(res.statusCode).toEqual(400);
-      expect(Object.keys(errorObj)).toEqual(['email']); // should return one error for email
-      expect(errorObj.email.message).toBe('Email already exists.');
-    });
-
     it('will return user object on successful create', async () => {
       const res = await request(app)
         .post('/api/user')
@@ -81,6 +69,18 @@ describe('User Routes', () => {
       expect(Object.keys(res.body.user)).toEqual(
         expect.not.arrayContaining(['password'])
       ); // user object should not contain a password
+    });
+
+    it('will return error with duplicate email', async () => {
+      const res = await request(app)
+        .post('/api/user')
+        .type('form')
+        .send('email=test@test.com') // send post with already used email address
+        .send('password=test');
+      const errorObj = res.body.error.errors;
+      expect(res.statusCode).toEqual(400);
+      expect(Object.keys(errorObj)).toEqual(['email']); // should return one error for email
+      expect(errorObj.email.message).toBe('Email already exists.');
     });
   });
 });
