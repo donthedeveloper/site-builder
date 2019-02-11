@@ -1,0 +1,88 @@
+@import  './../utilities/config';
+
+.signup-page {
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  background: $light-grey;
+  top: 100px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+
+  &__form {
+    padding-bottom: 20px;
+  }
+
+  &__title {
+    background: $blue;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  &__general-error {
+    display: block;
+    color: red;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  &__submit-button {
+    display: block;
+    background: $green;
+    color: white;
+    width: 66%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px 0;
+    border: 1px $green;
+    cursor: pointer;
+    &:active {
+      background: white;
+      border: 1px white;
+      color: $green;
+      outline: none;
+    }
+    &:focus {
+      border: 1px white;
+      outline: none;
+    }
+    &:disabled {
+      background: grey;
+    }
+  }
+  &__input {
+    font-family: 'Roboto', sans-serif;
+    max-width: 66%;
+    margin: 10px auto;
+  }
+  &__label {
+    display: block;
+    padding: 20px 0;
+    font-weight: 100;
+    color: grey;
+  }
+
+  &__error {
+    color: red;
+    margin-left: 20px;
+    font-size: 0.8rem;
+  }
+  &__input-field {
+    display: block;
+    outline: none;
+    border: 0;
+    color: grey;
+    border-bottom: solid grey;
+    background-color: $light-grey;
+    width: 100%;
+    padding: 5px;
+
+    &:focus {
+      color: $blue;
+      border-bottom: solid $blue;
+    }
+  }
+  
+  
+}

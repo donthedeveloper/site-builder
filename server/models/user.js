@@ -49,6 +49,23 @@ UserSchema.pre('save', function(next) {
   }
 });
 
+UserSchema.statics.authenticate = function(email, password) {
+  return User.findOne({ email })
+    .exec()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        return user;
+      } else {
+        throw {
+          error: {
+            message: 'Incorrect username and password combination.',
+            name: 'AuthenticationError'
+          }
+        };
+      }
+    });
+};
+
 UserSchema.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.password;
