@@ -17,7 +17,7 @@ describe('POST Auth/Login', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send('email=test@test'); // send post with invalid invalid email
+      .send({ email: 'invalidEmail@test', password: 'test' }); // send post with invalid invalid email
     expect(res.statusCode).toEqual(400);
     expect(res.body.error.message).toBe(
       'Incorrect email and password combination.'
@@ -28,8 +28,7 @@ describe('POST Auth/Login', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send(`email=${existingUserEmail}`) // send post with valid and existing email
-      .send('password=wrongpassword'); // send post with invalid password
+      .send({ email: existingUserEmail, password: 'wrongPassword' }); // send post with valid/existing email and invalid password
     expect(res.statusCode).toEqual(400);
     expect(res.body.error.message).toBe(
       'Incorrect email and password combination.'
@@ -41,8 +40,7 @@ describe('POST Auth/Login', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send(`email=${existingUserEmail}`)
-      .send('password=test'); // send post with valid email and password
+      .send({ email: existingUserEmail, password: 'test' }); // send post with valid email and password
     expect(res.statusCode).toEqual(200);
     expect(Object.keys(res.body)).toEqual([
       '_id',
