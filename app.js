@@ -9,11 +9,13 @@ const session = require('express-session');
 
 const app = express();
 const MongoStore = require('connect-mongo')(session);
+const router = require('./server/routes');
 
 const mongoUri =
   process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(mongoUri, { useNewUrlParser: true });
 const db = mongoose.connection;
+// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(
@@ -42,7 +44,6 @@ app.set('view engine', 'html');
 
 app.use(express.static('browser/public'));
 
-const router = require('./server/routes');
 app.use('/', router);
 
 module.exports = app;
