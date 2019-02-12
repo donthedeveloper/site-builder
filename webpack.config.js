@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
@@ -29,12 +28,12 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    path: path.resolve(__dirname, 'browser/public'),
+    path: path.join(__dirname, 'browser/public'),
     filename: 'scripts.js',
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'browser/public'),
+    contentBase: path.join(__dirname, 'browser/public'),
     historyApiFallback: true,
     hot: true,
     proxy: {
@@ -44,10 +43,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'browser', 'src', 'index.html'),
-    }),
-    new CleanWebpackPlugin(['public/*.*']),
+    new CleanWebpackPlugin([path.join(__dirname, 'browser/public/*.js*')]),
 
   ],
 };
