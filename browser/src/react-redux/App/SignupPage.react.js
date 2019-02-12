@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import setUser from './User/User.action';
+import setUser from './User/User.actions';
 import axios from 'axios';
 
 const initialState = {

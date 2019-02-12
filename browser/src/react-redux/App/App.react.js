@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import SignupPage from './SignupPage.react'
 import Nav from './Nav.react'
-import LoginPage from './LoginPage.react'
+import LoginPage from './LoginPage/LoginPage.react'
 
 export default props => {
   return (

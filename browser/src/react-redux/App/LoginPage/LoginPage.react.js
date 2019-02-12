@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import setUser from './User/User.action';
+import setUserAction from '../User/User.actions';
 
 const initialState = {
   email: '',
@@ -23,6 +22,10 @@ class LoginPage extends Component {
       __v: PropTypes.number,
     }),
   };
+
+  static defaultProps = {
+    user: null,
+  }
 
   state = initialState
 
@@ -119,7 +122,7 @@ class LoginPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setUser: (user) => {
-    dispatch(setUser(user));
+    dispatch(setUserAction(user));
   },
 });
 
