@@ -3,14 +3,14 @@ const app = require('../../../../app');
 const User = require('../../../models/user');
 
 describe('POST Auth/Login', () => {
-  const emailForTesting = 'testUser@test.com';
+  const existingUserEmail = 'testUser@test.com';
 
   beforeAll(() => {
-    return User.create({ email: emailForTesting, password: 'test' });
+    return User.create({ email: existingUserEmail, password: 'test' });
   });
 
   afterAll(() => {
-    return User.findOneAndDelete({ email: emailForTesting });
+    return User.findOneAndDelete({ email: existingUserEmail });
   });
 
   it('will return error with invalid email', async () => {
@@ -28,7 +28,7 @@ describe('POST Auth/Login', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send(`email=${emailForTesting}`) // send post with valid and existing email
+      .send(`email=${existingUserEmail}`) // send post with valid and existing email
       .send('password=wrongpassword'); // send post with invalid password
     expect(res.statusCode).toEqual(400);
     expect(res.body.error.message).toBe(
@@ -41,7 +41,7 @@ describe('POST Auth/Login', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .type('form')
-      .send(`email=${emailForTesting}`)
+      .send(`email=${existingUserEmail}`)
       .send('password=test'); // send post with valid email and password
     expect(res.statusCode).toEqual(200);
     expect(Object.keys(res.body)).toEqual([
