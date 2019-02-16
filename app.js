@@ -1,3 +1,4 @@
+require('@babel/polyfill');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -8,20 +9,24 @@ const session = require('express-session');
 
 const app = express();
 const MongoStore = require('connect-mongo')(session);
+const router = require('./server/routes');
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
+const mongoUri =
+  process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(
   mongoUri,
-  { useNewUrlParser: true }
+  { useNewUrlParser: true },
 );
+mongoose.set('useCreateIndex', true);
 const db = mongoose.connection;
+// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(
   session({
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     resave: true,
-    saveUnitialized: false,
+    saveUninitialized: false,
     secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
       mongooseConnection: db
@@ -43,7 +48,6 @@ app.set('view engine', 'html');
 
 app.use(express.static('browser/public'));
 
-const router = require('./server/routes');
 app.use('/', router);
 
 module.exports = app;

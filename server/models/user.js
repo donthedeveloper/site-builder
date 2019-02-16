@@ -62,7 +62,7 @@ UserSchema.statics.authenticate = function (email, password) {
       } else {
         throw {
           error: {
-            message: 'Incorrect username and password combination.',
+            message: 'Incorrect email and password combination.',
             name: 'AuthenticationError'
           }
         };
