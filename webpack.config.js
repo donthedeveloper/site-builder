@@ -3,7 +3,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: ['./browser/src/react-redux/index.jsx'],
+  entry: ['./browser/src/react-redux/index.js'],
   mode: 'development',
   module: {
     rules: [
@@ -25,7 +25,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
   output: {
     path: path.join(__dirname, 'browser/public'),
