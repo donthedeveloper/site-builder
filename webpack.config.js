@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: ['./browser/src/react-redux/index.jsx'],
+  entry: ['./browser/src/react-redux/index.js'],
   mode: 'development',
   module: {
     rules: [{
-      test: /jsx?$/,
+      test: /js?$/,
       exclude: /node_modules/,
       use: {
         loader: 'babel-loader',
@@ -13,10 +13,10 @@ module.exports = {
     }],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
   output: {
-    path: path.join(__dirname, '/browser/public/js'),
+    path: path.join(__dirname, 'browser/public/js'),
     filename: 'scripts.js',
   },
   devtool: 'source-map',
