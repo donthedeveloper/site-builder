@@ -1,34 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-import { resetUser } from './User/User.actions';
+import { resetUserAction } from './User/User.actions';
 
 class Logout extends Component {
-  onLogout = (e) => {
+  static propTypes = {
+    resetUser: PropTypes.func.isRequired,
+  };
+
+  handleLogout = (e) => {
     e.preventDefault();
-    const { setUser } = this.props;
 
-    // clear user from redux store
-    setUser();
-
-    // destroy session
+    // destroy user session
     axios.get('/api/auth/logout').then((res) => {
-      console.log(res);
+      if (res.status === 200) {
+        const { resetUser } = this.props;
+        // clear user from redux store
+        resetUser();
+      }
     });
   };
 
   render() {
     return (
       <div>
-        <a onClick={this.onLogout}>Logout</a>
+        <button type="button" onClick={this.handleLogout}>
+          Logout
+        </button>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  setUser: () => {
-    dispatch(resetUser(null));
+  resetUser: () => {
+    dispatch(resetUserAction());
   },
 });
 
