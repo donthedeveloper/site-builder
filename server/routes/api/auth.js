@@ -29,7 +29,7 @@ router.get('/logout', (req, res) => {
 router.post('/forgot', async (req, res) => {
   const user = await User.findOne({ email: req.body.email }).exec();
   if (!user) {
-    res.status(200).end();
+    return res.status(200).end();
   }
   const token = crypto.randomBytes(20).toString('hex');
   user.resetPassword.token = token;
@@ -37,7 +37,7 @@ router.post('/forgot', async (req, res) => {
   try {
     await user.save();
   } catch (err) {
-    res.status(500).json({ error: err });
+    return res.status(500).json({ error: err });
   }
 
   const smtpTransport = nodemailer.createTransport({
@@ -57,9 +57,9 @@ router.post('/forgot', async (req, res) => {
   };
   try {
     await smtpTransport.sendMail(mailOptions);
-    res.status(200).end();
+    return res.status(200).end();
   } catch (err) {
-    res.status(500).json({ error: err });
+    return res.status(500).json({ error: err });
   }
 });
 
