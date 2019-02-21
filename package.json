@@ -13,6 +13,7 @@
     "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
     "stylelint": "stylelint browser/src/**/*.scss",
     "test": "NODE_ENV=test jest --config ./server/jest.config.js",
+    "test-windows": "set NODE_ENV=test && jest --config ./server/jest.config.js",
     "watch-mac": "npm run sass-watch & npm run webpack-watch & npm run start-dev",
     "watch-windows": "start /B npm run sass-watch & start /B npm run webpack-watch & start /B npm run start-dev",
     "webpack": "webpack",
