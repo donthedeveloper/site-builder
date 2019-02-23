@@ -1,7 +1,14 @@
 {
-  "extends": "airbnb",
+  "plugins": [
+    "jest"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:jest/recommended"
+  ],
   "rules": {
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-underscore-dangle": "off"
   },
   "parser": "babel-eslint"
 }
