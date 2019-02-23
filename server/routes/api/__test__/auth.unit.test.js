@@ -52,3 +52,37 @@ describe('POST Auth/Login', () => {
     expect(res.body.email).toEqual(email); // returned email should be correct user
   });
 });
+
+describe('POST Auth/Forgot', () => {
+  const existingUserEmail = 'testUser@test.com';
+
+  beforeAll(() => {
+    return User.create({ email: existingUserEmail, password: 'test' });
+  });
+
+  afterAll(() => {
+    return User.findOneAndDelete({ email: existingUserEmail });
+  });
+  it('will return status 200 on nonexistent user', async () => {
+    const res = await request(app)
+      .post('/api/auth/forgot')
+      .type('form')
+      .send({ email: 'doesnotexist@test.com' });
+    expect(res.statusCode).toEqual(200);
+  });
+  it('will return status 200 on existing user', async () => {
+    const res = await request(app)
+      .post('/api/auth/forgot')
+      .type('form')
+      .send({ email: existingUserEmail });
+    expect(res.statusCode).toEqual(200);
+  });
+  it('will create, then save a token and expiration to user', async () => {
+    await request(app)
+      .post('/api/auth/forgot')
+      .type('form')
+      .send({ email: existingUserEmail });
+    const user = await User.findOne({ email: existingUserEmail }).exec();
+    expect(user.resetPassword.token && user.resetPassword.expiration);
+  });
+});
