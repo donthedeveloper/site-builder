@@ -1,6 +1,9 @@
+/* eslint-disable global-require */
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+
 
 module.exports = {
   entry: ['./browser/src/react-redux/index.js'],
@@ -28,12 +31,12 @@ module.exports = {
     extensions: ['.js'],
   },
   output: {
-    path: path.join(__dirname, 'browser/public'),
+    path: path.join(__dirname, 'browser/dist'),
     filename: 'scripts.js',
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'browser/public'),
+    contentBase: path.join(__dirname, 'browser/dist'),
     historyApiFallback: true,
     hot: true,
     proxy: {
@@ -43,7 +46,12 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin([path.join(__dirname, 'browser/public/*.js*')]),
+    new CleanWebpackPlugin([path.join(__dirname, 'browser/dist')]),
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: require('html-webpack-template'),
+      appMountId: 'app',
+    }),
 
   ],
 };
