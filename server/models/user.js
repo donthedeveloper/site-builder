@@ -25,6 +25,10 @@ const UserSchema = new Schema(
       type: String,
       trim: true,
       required: [true, 'You must provide a password.']
+    },
+    resetPassword: {
+      token: String,
+      expiration: Date
     }
   },
   { timestamps: true }
@@ -34,7 +38,7 @@ UserSchema.plugin(uniqueValidator, {
   message: 'Email already exists.'
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   const password = this.password;
   if (password) {
     bcrypt
@@ -49,7 +53,7 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-UserSchema.statics.authenticate = function(email, password) {
+UserSchema.statics.authenticate = function (email, password) {
   return User.findOne({ email })
     .exec()
     .then(user => {
@@ -58,7 +62,7 @@ UserSchema.statics.authenticate = function(email, password) {
       } else {
         throw {
           error: {
-            message: 'Incorrect username and password combination.',
+            message: 'Incorrect email and password combination.',
             name: 'AuthenticationError'
           }
         };
@@ -66,7 +70,7 @@ UserSchema.statics.authenticate = function(email, password) {
     });
 };
 
-UserSchema.methods.toJSON = function() {
+UserSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
   return obj;

@@ -1,6 +1,6 @@
 const setUser = (user) => {
   return {
-    type: 'NEW_USER_SUBMITTED',
+    type: 'SET_USER',
     user
   }
 }
