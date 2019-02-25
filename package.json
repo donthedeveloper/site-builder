@@ -13,6 +13,7 @@
     "test": "NODE_ENV=test jest --config ./server/jest.config.js",
     "watch-mac": "npm run start-dev & npm run webpack-dev-server",
     "watch-windows": "start /B npm run start-dev & start /B npm run webpack-dev-server",
+    "test-windows": "set NODE_ENV=test && jest --config ./server/jest.config.js",
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server --open",
     "webpack-watch": "webpack -w"
@@ -33,6 +34,7 @@
   "homepage": "https://github.com/donthedeveloper/site-builder#readme",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@sendgrid/mail": "^6.3.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
@@ -45,6 +47,7 @@
     "mongoose-unique-validator": "^2.0.2",
     "mongoose-validator": "^2.1.0",
     "morgan": "^1.9.1",
+    "nodemailer": "^5.1.1",
     "nunjucks": "^3.1.4",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
