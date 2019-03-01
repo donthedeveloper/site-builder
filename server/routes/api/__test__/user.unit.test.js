@@ -65,7 +65,7 @@ describe('User Routes', () => {
       expect(res.statusCode).toEqual(201);
       expect(Object.keys(res.body)).toEqual(['user']); // should return new user object
       expect(Object.keys(res.body.user)).toEqual(
-        expect.not.arrayContaining(['password'])
+        expect.not.arrayContaining(['password']),
       ); // user object should not contain a password
     });
 
