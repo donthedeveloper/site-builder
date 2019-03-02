@@ -34,23 +34,28 @@ class SignupPage extends Component {
     });
   };
 
-  getConfirmPasswordError = () =>
-    this.state.confirmPassword &&
-    this.state.password !== this.state.confirmPassword
-      ? 'Passwords do not match.'
-      : null;
+  getConfirmPasswordError = () => (this.state.confirmPassword && this.state.password !== this.state.confirmPassword
+    ? 'Passwords do not match.'
+    : null);
 
-  isSubmitButtonDisabled = () =>
-    !(
-      this.state.email &&
-      this.state.password &&
-      this.state.confirmPassword &&
-      this.state.password === this.state.confirmPassword
-    );
+  isSubmitButtonDisabled = () => !(
+    this.state.email
+    && this.state.password
+    && this.state.confirmPassword
+    && this.state.password === this.state.confirmPassword
+  );
 
   onSubmit = e => {
     e.preventDefault();
+    const { emailError, passwordError, generalError } = this.state;
 
+    if (emailError || passwordError || generalError) {
+      this.setState({
+        emailError: '',
+        passwordError: '',
+        generalError: '',
+      });
+    }
     const user = {
       email: this.state.email,
       password: this.state.password
