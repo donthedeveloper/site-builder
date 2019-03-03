@@ -4,7 +4,7 @@ import SignupPage from './SignupPage/SignupPage.react';
 import Nav from './Nav.react';
 import LoginPage from './LoginPage/LoginPage.react';
 
-export default props => (
+export default () => (
   <div>
     <Nav />
     <Switch>
