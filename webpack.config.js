@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackTemplate = require('html-webpack-template');
 
 
 module.exports = {
@@ -49,7 +50,7 @@ module.exports = {
     new CleanWebpackPlugin([path.join(__dirname, 'browser/dist')]),
     new HtmlWebpackPlugin({
       inject: false,
-      template: require('html-webpack-template'),
+      template: HtmlWebpackTemplate,
       appMountId: 'app',
     }),
 
