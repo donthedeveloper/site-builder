@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { setUserAction } from '../User/User.actions'
+import setUser from '../User/User.actions'
 
 const initialState = {
   confirmPassword: '',
@@ -34,11 +34,21 @@ class SignupPage extends Component {
     })
   }
 
-  getConfirmPasswordError = () =>
-    this.state.confirmPassword &&
-    this.state.password !== this.state.confirmPassword
+  getConfirmPasswordError = () => {
+    return this.state.confirmPassword &&
+      this.state.password !== this.state.confirmPassword
       ? 'Passwords do not match.'
       : null
+  }
+
+  isSubmitButtonEnabled = () => {
+    return !(
+      this.state.confirmPassword &&
+      this.state.password &&
+      this.state.confirmPassword &&
+      this.state.password === this.state.confirmPassword
+    )
+  }
 
   isSubmitButtonDisabled = () =>
     !(
@@ -72,7 +82,7 @@ class SignupPage extends Component {
       })
       .catch(err => {
         if (err.response.data.error.errors) {
-          const { errors } = err.response.data.error
+          const errors = err.response.data.error.errors
 
           errors.email
             ? this.setState({ emailError: errors.email.message })
@@ -154,9 +164,8 @@ class SignupPage extends Component {
 
           <div>
             <button
-              disabled={this.isSubmitButtonDisabled()}
+              disabled={this.isSubmitButtonEnabled()}
               className="signup-page__submit-button"
-              type="submit"
             >
               Signup!
             </button>
@@ -167,11 +176,13 @@ class SignupPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setUser: user => {
-    dispatch(setUserAction(user))
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setUser(user))
+    }
   }
-})
+}
 
 const mapStateToProps = state => ({ user: state.user })
 
