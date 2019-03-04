@@ -17,7 +17,7 @@ router.post('/login', (req, res) => {
         req.session.userId = user._id;
         return res.status(200).json(user);
       },
-      err => res.status(400).json(JSON.parse(err.message)),
+      err => res.status(400).json({ error: err }),
     )
     .catch(err => res.status(500).json(err));
 });
