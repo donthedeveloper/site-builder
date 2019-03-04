@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { setUserAction } from '../User/User.actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import { setUserAction } from '../User/User.actions'
 
 const initialState = {
   confirmPassword: '',
@@ -12,7 +12,7 @@ const initialState = {
   emailError: '',
   generalError: '',
   passwordError: ''
-};
+}
 
 class SignupPage extends Component {
   static propTypes = {
@@ -24,71 +24,74 @@ class SignupPage extends Component {
       updatedAt: PropTypes.string,
       __v: PropTypes.number
     })
-  };
+  }
 
-  state = initialState;
+  state = initialState
 
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
-    });
-  };
+    })
+  }
 
-  getConfirmPasswordError = () => (this.state.confirmPassword && this.state.password !== this.state.confirmPassword
-    ? 'Passwords do not match.'
-    : null);
+  getConfirmPasswordError = () =>
+    this.state.confirmPassword &&
+    this.state.password !== this.state.confirmPassword
+      ? 'Passwords do not match.'
+      : null
 
-  isSubmitButtonDisabled = () => !(
-    this.state.email
-    && this.state.password
-    && this.state.confirmPassword
-    && this.state.password === this.state.confirmPassword
-  );
+  isSubmitButtonDisabled = () =>
+    !(
+      this.state.email &&
+      this.state.password &&
+      this.state.confirmPassword &&
+      this.state.password === this.state.confirmPassword
+    )
 
   onSubmit = e => {
-    e.preventDefault();
-    const { emailError, passwordError, generalError } = this.state;
+    e.preventDefault()
+    const { emailError, passwordError, generalError } = this.state
 
     if (emailError || passwordError || generalError) {
       this.setState({
         emailError: '',
         passwordError: '',
-        generalError: '',
-      });
+        generalError: ''
+      })
     }
     const user = {
       email: this.state.email,
       password: this.state.password
-    };
+    }
 
     axios
       .post('/api/user', user)
       .then(res => {
         // set current user with redux store.
-        this.props.setUser(res.data.user);
+        this.props.setUser(res.data.user)
       })
       .catch(err => {
         if (err.response.data.error.errors) {
-          const { errors } = err.response.data.error;
+          const { errors } = err.response.data.error
 
           errors.email
             ? this.setState({ emailError: errors.email.message })
-            : null;
+            : null
           errors.password
             ? this.setState({ passwordError: errors.password.message })
-            : null;
+            : null
         } else {
           this.setState({
             generalError: err.response.data.error.message
-          });
+          })
         }
-      });
-  };
+      })
+  }
 
   render() {
-    const { user } = this.props;
+    const { user } = this.props
     if (user) {
-      return <Redirect to="/" />;
+      return <Redirect to="/" />
     }
     return (
       <div className="signup-page">
@@ -160,19 +163,19 @@ class SignupPage extends Component {
           </div>
         </form>
       </div>
-    );
+    )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => {
-    dispatch(setUserAction(user));
+    dispatch(setUserAction(user))
   }
-});
+})
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ user: state.user })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignupPage);
+)(SignupPage)
