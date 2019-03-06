@@ -1,24 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Logout from './Logout/Logout.React';
 
-const User = () => (
+const User = props => (
   <nav>
     <ul>
       <li>
         <Link to="/">Home</Link>
       </li>
-      <li>
-        <Link to="/signup">Sign Up</Link>
-      </li>
-      <li>
-        <Link to="/login">Login</Link>
-      </li>
-      <li>
-        <Logout />
-      </li>
+      {!props.user ? (
+        <>
+          <li>
+            <Link to="/signup">Sign Up</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          {' '}
+        </>
+      ) : (
+        <li>
+          <Logout />
+        </li>
+      )}
     </ul>
   </nav>
 );
 
-export default User;
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps)(User);
