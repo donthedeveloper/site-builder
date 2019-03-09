@@ -18,3 +18,4 @@ class AuthenticationError extends ApplicationError {
 module.exports = {
   AuthenticationError,
 };
+

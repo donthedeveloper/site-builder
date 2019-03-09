@@ -1,11 +1,6 @@
 {
-  "plugins": [
-    "jest"
-  ],
-  "extends": [
-    "airbnb",
-    "plugin:jest/recommended"
-  ],
+  "plugins": ["jest"],
+  "extends": ["airbnb", "plugin:jest/recommended"],
   "rules": {
     "linebreak-style": "off",
     "react/jsx-filename-extension": [

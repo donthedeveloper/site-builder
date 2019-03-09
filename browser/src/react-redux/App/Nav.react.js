@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logout from './Logout/Logout.React';
 
 const User = () => (
   <nav>
@@ -13,9 +14,11 @@ const User = () => (
       <li>
         <Link to="/login">Login</Link>
       </li>
+      <li>
+        <Logout />
+      </li>
     </ul>
   </nav>
 );
-
 
 export default User;
