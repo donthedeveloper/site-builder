@@ -8,7 +8,6 @@ class ApplicationError extends Error {
   }
 }
 
-// eslint-disable-next-line import/prefer-default-export
 class AuthenticationError extends ApplicationError {
   constructor(message) {
     super(message || 'Incorrect email and password combination.');
