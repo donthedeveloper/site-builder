@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -114,6 +114,7 @@ class LoginPage extends Component {
               Login!
             </button>
           </div>
+          <Link to="/forgot-password">Forgot Password?</Link>
         </form>
       </div>
     );

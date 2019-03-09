@@ -1,11 +1,14 @@
 const express = require('express');
 
 const router = express.Router();
-// const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const ApplicationErrors = require('../../errors/ApplicationErrors');
+
 require('dotenv').config();
 
+// Custom Error
+const { ServerError } = ApplicationErrors;
 // User Model
 const User = require('../../models/user');
 
@@ -37,7 +40,7 @@ router.post('/forgot', async (req, res) => {
   try {
     await user.save();
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).json(new ServerError());
   }
 
   const smtpTransport = nodemailer.createTransport({
@@ -59,7 +62,7 @@ router.post('/forgot', async (req, res) => {
     await smtpTransport.sendMail(mailOptions);
     return res.status(200).end();
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).json(new ServerError());
   }
 });
 
