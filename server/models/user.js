@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
@@ -54,14 +53,18 @@ UserSchema.pre('save', function save(next) {
   }
 });
 
-
 UserSchema.statics.authenticate = function authenticate(email, password) {
   return this.findOne({ email })
     .exec()
     .then((user) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         return user;
+<<<<<<< HEAD
       } throw new Error('Incorrect email and password combination.');
+=======
+      }
+      throw Error('Incorrect email and password combination.');
+>>>>>>> 65ca85786dde2aa35709536616d6ac22e2c169dd
     });
 };
 
