@@ -18,7 +18,12 @@ router.post('/login', (req, res) => {
       },
       err => res.status(400).json({ error: err }),
     )
-    .catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json({
+      error: {
+        message: err.message,
+        name: 'AuthenticationError',
+      },
+    }));
 });
 
 router.get('/logout', (req, res) => {

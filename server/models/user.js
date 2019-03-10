@@ -3,9 +3,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 const uniqueValidator = require('mongoose-unique-validator');
-const ApplicationErrors = require('../errors/ApplicationErrors');
 
-const { AuthenticationError } = ApplicationErrors;
 const { Schema } = mongoose;
 
 // Email validator
@@ -63,7 +61,7 @@ UserSchema.statics.authenticate = function authenticate(email, password) {
     .then((user) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         return user;
-      } throw new AuthenticationError();
+      } throw new Error('Incorrect email and password combination.');
     });
 };
 
