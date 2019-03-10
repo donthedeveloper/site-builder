@@ -16,14 +16,14 @@ router.post('/login', (req, res) => {
         req.session.userId = user._id;
         return res.status(200).json(user);
       },
-      err => res.status(400).json({ error: err }),
+      err => res.status(400).json({
+        error: {
+          message: err.message,
+          name: 'AuthenticationError',
+        },
+      }),
     )
-    .catch(err => res.status(500).json({
-      error: {
-        message: err.message,
-        name: 'AuthenticationError',
-      },
-    }));
+    .catch(err => res.status(500).json(err));
 });
 
 router.get('/logout', (req, res) => {

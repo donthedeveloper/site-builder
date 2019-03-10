@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import setUserAction from '../User/User.actions';
+import { setUserAction } from '../User/User.actions';
 
 const initialState = {
   confirmPassword: '',
@@ -87,7 +87,6 @@ class SignupPage extends Component {
         setUser(res.data.user);
       })
       .catch((err) => {
-        console.log(err.response);
         if (err.response.data.error.errors) {
           const { errors } = err.response.data.error;
 
