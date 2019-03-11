@@ -1,7 +1,6 @@
 const express = require('express');
 
 const router = express.Router();
-// const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
@@ -59,7 +58,7 @@ router.post('/forgot', async (req, res) => {
     await smtpTransport.sendMail(mailOptions);
     return res.status(200).end();
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).end();
   }
 });
 
