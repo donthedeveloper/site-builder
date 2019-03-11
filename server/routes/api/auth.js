@@ -21,10 +21,12 @@ router.post('/login', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// GET User Logout
 router.get('/logout', (req, res) => {
   req.session.destroy(err => (err ? res.status(500).json(err) : res.status(200).end()));
 });
 
+// POST User Forgot Password
 router.post('/forgot', async (req, res) => {
   const user = await User.findOne({ email: req.body.email }).exec();
   if (!user) {
@@ -34,6 +36,8 @@ router.post('/forgot', async (req, res) => {
   user.resetPassword.token = token;
   user.resetPassword.expiration = Date.now() + 3600000;
   try {
+    console.log(user.resetPassword.token); // Reset token
+
     await user.save();
   } catch (err) {
     return res.status(500).json({ error: err });
@@ -59,6 +63,26 @@ router.post('/forgot', async (req, res) => {
     return res.status(200).end();
   } catch (err) {
     return res.status(500).end();
+  }
+});
+
+// GET Reset Password
+router.get('/reset/:token', async (req, res) => {
+  // find user with reset token and check it hasn't expired
+  const user = await User.findOne({ 'resetPassword.token': req.params.token, 'resetPassword.expiration': { $gt: Date.now() } });
+  if (!user) {
+    return res.status(401).json('Invalid or expired token.').end();
+  }
+
+  user.password = req.body.password;
+  user.resetPassword.token = undefined;
+  user.resetPassword.expiration = undefined;
+
+  try {
+    await user.save();
+    return res.status(200).end();
+  } catch (err) {
+    return res.status(500).json({ error: err });
   }
 });
 
