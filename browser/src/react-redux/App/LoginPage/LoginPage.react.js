@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { setUserAction } from '../User/User.actions';
+import { setUser } from '../User/User.actions';
 
 const initialState = {
   email: '',
@@ -118,7 +118,7 @@ class LoginPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setUser: (user) => {
-    dispatch(setUserAction(user));
+    dispatch(setUser(user));
   },
 });
 
