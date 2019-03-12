@@ -8,7 +8,7 @@
     "dev-windows": "npm install && npm run watch-windows",
     "start": "node server.js",
     "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
-    "eslint": "eslint *.js",
+    "eslint": "eslint . -c ./.eslintrc.json --ext .js,.jsx",
     "stylelint": "stylelint browser/src/**/*.scss",
     "test": "NODE_ENV=test jest --config ./server/jest.config.js",
     "watch-mac": "npm run start-dev & npm run webpack-dev-server",
