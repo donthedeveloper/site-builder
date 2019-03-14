@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 // Email validator
 const emailValidator = validate({
   validator: 'isEmail',
-  message: 'Provide a proper email address.'
+  message: 'Provide a proper email address.',
 });
 
 // Create User schema
@@ -19,31 +19,31 @@ const UserSchema = new Schema(
       required: [true, 'You must provide an email address.'],
       trim: true,
       unique: true,
-      validate: emailValidator
+      validate: emailValidator,
     },
     password: {
       type: String,
       trim: true,
-      required: [true, 'You must provide a password.']
+      required: [true, 'You must provide a password.'],
     },
     resetPassword: {
       token: String,
-      expiration: Date
-    }
+      expiration: Date,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 UserSchema.plugin(uniqueValidator, {
-  message: 'Email already exists.'
+  message: 'Email already exists.',
 });
 
-UserSchema.pre('save', function (next) {
-  const password = this.password;
+UserSchema.pre('save', function save(next) {
+  const { password } = this;
   if (password) {
     bcrypt
       .hash(password, 10)
-      .then(hash => {
+      .then((hash) => {
         this.password = hash;
         next();
       })
@@ -53,30 +53,22 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.statics.authenticate = function (email, password) {
-  return User.findOne({ email })
+UserSchema.statics.authenticate = function authenticate(email, password) {
+  return this.findOne({ email })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         return user;
-      } else {
-        throw {
-          error: {
-            message: 'Incorrect email and password combination.',
-            name: 'AuthenticationError'
-          }
-        };
       }
+      throw Error('Incorrect email and password combination.');
     });
 };
 
-UserSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function toJson() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 };
-
 // Create User model from schema
 const User = mongoose.model('User', UserSchema);
-
 module.exports = User;
