@@ -20,10 +20,10 @@ const User = props => (
           {' '}
         </>
       ) : (
-          <li>
+        <li>
             <Logout />
           </li>
-        )}
+      )}
     </ul>
   </nav>
 );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { resetUser } from '../User/User.actions';
+import { resetUserAction } from '../User/User.actions';
 
 class Logout extends Component {
   static propTypes = {
@@ -35,7 +35,7 @@ class Logout extends Component {
 
 const mapDispatchToProps = dispatch => ({
   resetUser: () => {
-    dispatch(resetUser());
+    dispatch(resetUserAction());
   },
 });
 

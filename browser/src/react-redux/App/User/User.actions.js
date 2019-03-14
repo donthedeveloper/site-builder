@@ -1,8 +1,8 @@
-export const setUser = user => ({
+export const setUserAction = user => ({
   type: 'SET_USER',
   user,
 });
 
-export const resetUser = () => ({
+export const resetUserAction = () => ({
   type: 'RESET_USER',
 });

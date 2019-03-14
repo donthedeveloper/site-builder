@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { setUser } from '../User/User.actions';
+import { setUserAction } from '../User/User.actions';
 
 const initialState = {
   confirmPassword: '',
@@ -185,7 +185,7 @@ class SignupPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setUser: (user) => {
-    dispatch(setUser(user));
+    dispatch(setUserAction(user));
   },
 });
 
