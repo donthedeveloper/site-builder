@@ -4,8 +4,5 @@
   ],
   "extends": [
     "stylelint-config-recommended"
-  ],
-  "ignoreFiles": [
-    "./browser/src/sass/base/_normalize.scss"
   ]
 }
