@@ -7,7 +7,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "npm install && npm run watch",
     "dev-windows": "npm install && npm run watch-windows",
-    "start": "npm run dev",
+    "start": "node server.js",
     "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
     "eslint": "eslint . -c ./.eslintrc.json --ext .js,.jsx",
     "stylelint": "stylelint browser/src/**/*.scss",
