@@ -4,15 +4,13 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const nunjucks = require('nunjucks');
 const session = require('express-session');
 
 const app = express();
 const MongoStore = require('connect-mongo')(session);
 const router = require('./server/routes');
 
-const mongoUri =
-  process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/siteBuilder';
 mongoose.connect(
   mongoUri,
   { useNewUrlParser: true },
@@ -29,24 +27,16 @@ app.use(
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET || 'imasecret',
     store: new MongoStore({
-      mongooseConnection: db
-    })
-  })
+      mongooseConnection: db,
+    }),
+  }),
 );
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-nunjucks.configure('./server/templates', {
-  autoescape: true,
-  express: app
-});
-
-app.engine('html', nunjucks.render);
-app.set('view engine', 'html');
-
-app.use(express.static('browser/public'));
+app.use(express.static('browser/dist'));
 
 app.use('/', router);
 

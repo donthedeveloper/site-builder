@@ -1,7 +1,21 @@
 {
-  "extends": "airbnb",
+  "plugins": ["jest"],
+  "extends": ["airbnb", "plugin:jest/recommended"],
   "rules": {
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "no-underscore-dangle": "off"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  }
 }
