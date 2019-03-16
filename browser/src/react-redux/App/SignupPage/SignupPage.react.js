@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { setUserAction } from '../User/User.actions';
+import './_signup-page.scss';
 
 const initialState = {
   confirmPassword: '',
