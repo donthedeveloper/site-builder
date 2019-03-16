@@ -15,7 +15,7 @@ ReactDOM.render(
       </div>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('app.bundle.js'),
+  document.getElementById('app'),
 );
 
 if (module.hot) {
