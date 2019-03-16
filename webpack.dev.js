@@ -7,7 +7,7 @@ const HtmlWebpackTemplate = require('html-webpack-template');
 
 
 module.exports = {
-  entry: ['./browser/src/react-redux/index.js'],
+  entry: './browser/src/react-redux/index.js',
   mode: 'development',
   module: {
     rules: [
@@ -47,12 +47,11 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin([path.join(__dirname, 'browser/dist')]),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       inject: false,
       template: HtmlWebpackTemplate,
       appMountId: 'app',
     }),
-
   ],
 };
