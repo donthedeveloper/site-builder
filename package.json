@@ -11,11 +11,10 @@
     "start-dev": "nodemon server.js --ignore ./browser/src --ignore ./browser/public",
     "eslint": "eslint . -c ./.eslintrc.json --ext .js,.jsx",
     "stylelint": "stylelint browser/src/**/*.scss",
-    "test": "npm run webpack && NODE_ENV=test jest --config ./server/jest.config.js",
+    "test": "npm run build && NODE_ENV=test jest --config ./server/jest.config.js",
     "watch": "npm run start-dev & npm run webpack-dev-server",
     "watch-windows": "start /B npm run start-dev & start /B npm run webpack-dev-server",
     "test-windows": "npm run webpack && set NODE_ENV=test && jest --config ./server/jest.config.js",
-    "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server --open --config webpack.dev.js",
     "webpack-watch": "webpack -w"
   },
