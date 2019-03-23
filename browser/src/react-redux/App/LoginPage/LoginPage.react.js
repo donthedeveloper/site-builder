@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import setUserAction from '../User/User.actions';
+import { setUserAction } from '../User/User.actions';
 
 const initialState = {
   email: '',
@@ -25,22 +25,20 @@ class LoginPage extends Component {
 
   static defaultProps = {
     user: null,
-  }
+  };
 
-  state = initialState
+  state = initialState;
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
   isSubmitButtonDisabled = () => {
     const { email, password } = this.state;
-    return !(
-      email && password
-    );
-  }
+    return !(email && password);
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -59,7 +57,7 @@ class LoginPage extends Component {
         const err = error.response.data.error.message;
         this.setState({ error: err });
       });
-  }
+  };
 
   render() {
     const { error, email, password } = this.state;
@@ -71,9 +69,7 @@ class LoginPage extends Component {
       <div className="login-page">
         <form onSubmit={this.onSubmit} className="login-page__form">
           <h1 className="login-page__title">Login</h1>
-          <p className="login-page__general-error">
-            {error}
-          </p>
+          <p className="login-page__general-error">{error}</p>
 
           <div className="login-page__input">
             <label htmlFor="email" className="login-page__label">
@@ -129,4 +125,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({ user: state.user });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoginPage);

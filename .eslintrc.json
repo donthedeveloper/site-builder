@@ -8,7 +8,6 @@
   ],
   "rules": {
     "linebreak-style": "off",
-    "no-underscore-dangle": "off",
     "react/jsx-filename-extension": [
       1,
       {
@@ -17,7 +16,11 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "no-underscore-dangle": "off"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  }
 }

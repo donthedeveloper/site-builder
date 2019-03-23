@@ -20,7 +20,12 @@ router.post('/login', (req, res) => {
         req.session.userId = user._id;
         return res.status(200).json(user);
       },
-      err => res.status(400).json(err),
+      err => res.status(400).json({
+        error: {
+          message: err.message,
+          name: 'AuthenticationError',
+        },
+      }),
     )
     .catch(err => res.status(500).json(err));
 });
@@ -62,7 +67,7 @@ router.post('/forgot', async (req, res) => {
     await smtpTransport.sendMail(mailOptions);
     return res.status(200).end();
   } catch (err) {
-    return res.status(500).json(new ServerError());
+    return res.status(500).end();
   }
 });
 

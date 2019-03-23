@@ -62,7 +62,7 @@ typings/
 .next
 
 # public
-browser/public
+browser/dist
 
 # causing problems with initial setups  on different operating systems - todo: investigate
 package-lock.json

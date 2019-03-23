@@ -5,7 +5,7 @@ import Nav from './Nav.react';
 import LoginPage from './LoginPage/LoginPage.react';
 import ForgotPasswordPage from './ForgotPasswordPage/ForgotPasswordPage.react';
 
-export default props => (
+export default () => (
   <div>
     <Nav />
     <Switch>

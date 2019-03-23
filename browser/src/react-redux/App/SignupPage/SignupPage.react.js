@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import setUser from '../User/User.actions';
+import { setUserAction } from '../User/User.actions';
+import './_signup-page.scss';
 
 const initialState = {
   confirmPassword: '',
@@ -24,30 +25,48 @@ class SignupPage extends Component {
       updatedAt: PropTypes.string,
       __v: PropTypes.number,
     }),
-  };
+  }
 
-  state = initialState;
+  static defaultProps = { user: null };
+
+  state = initialState
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  };
+  }
 
-  getConfirmPasswordError = () => (this.state.confirmPassword && this.state.password !== this.state.confirmPassword
-    ? 'Passwords do not match.'
-    : null);
+  getConfirmPasswordError = () => {
+    const { confirmPassword, password } = this.state;
 
-  isSubmitButtonDisabled = () => !(
-    this.state.email
-    && this.state.password
-    && this.state.confirmPassword
-    && this.state.password === this.state.confirmPassword
-  );
+    return confirmPassword && password !== confirmPassword
+      ? 'Passwords do not match.'
+      : null;
+  }
+
+
+  isSubmitButtonEnabled = () => {
+    const { confirmPassword, password } = this.state;
+    return !(confirmPassword
+      && password
+      && confirmPassword
+      && password === confirmPassword);
+  }
+
+  isSubmitButtonDisabled = () => {
+    const { confirmPassword, email, password } = this.state;
+    return !(email
+      && password
+      && confirmPassword
+      && password === confirmPassword);
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { emailError, passwordError, generalError } = this.state;
+    const {
+      email, password, emailError, passwordError, generalError,
+    } = this.state;
 
     if (emailError || passwordError || generalError) {
       this.setState({
@@ -57,32 +76,37 @@ class SignupPage extends Component {
       });
     }
     const user = {
-      email: this.state.email,
-      password: this.state.password,
+      email,
+      password,
     };
 
     axios
       .post('/api/user', user)
       .then((res) => {
+        const { setUser } = this.props;
         // set current user with redux store.
-        this.props.setUser(res.data.user);
+        setUser(res.data.user);
       })
       .catch((err) => {
         if (err.response.data.error.errors) {
           const { errors } = err.response.data.error;
 
-          errors.email ? this.setState({ emailError: errors.email.message }) : null;
-          errors.password ? this.setState({ passwordError: errors.password.message }) : null;
-        } else {
-          this.setState({
-            generalError: err.response.data.error.message,
+          return this.setState({
+            emailError: errors.email ? errors.email.message : '',
+            passwordError: errors.password ? errors.password.message : '',
           });
         }
+        return this.setState({
+          generalError: err.response.data.error.message,
+        });
       });
-  };
+  }
 
   render() {
     const { user } = this.props;
+    const {
+      generalError, emailError, email, passwordError, password, confirmPassword,
+    } = this.state;
     if (user) {
       return <Redirect to="/" />;
     }
@@ -90,58 +114,66 @@ class SignupPage extends Component {
       <div className="signup-page">
         <form onSubmit={this.onSubmit} className="signup-page__form">
           <h1 className="signup-page__title">Signup for Site Builder</h1>
-          <p className="signup-page__general-error">{this.state.generalError}</p>
+          <p className="signup-page__general-error">
+            {generalError}
+          </p>
 
           <div className="signup-page__input">
-            <label className="signup-page__label">
+            <label htmlFor="email" className="signup-page__label">
               Email
-              <span className="signup-page__error">{this.state.emailError}</span>
+              <span className="signup-page__error">
+                {emailError}
+              </span>
+              <input
+                name="email"
+                value={email}
+                type="email"
+                onChange={this.handleChange}
+                className="signup-page__input-field"
+                required
+              />
             </label>
-            <input
-              name="email"
-              value={this.state.email}
-              type="email"
-              onChange={this.handleChange}
-              className="signup-page__input-field"
-              required
-            />
           </div>
 
           <div className="signup-page__input">
-            <label className="signup-page__label">
+            <label htmlFor="password" className="signup-page__label">
               Password
-              <span className="signup-page__error">{this.state.passwordError}</span>
+              <span className="signup-page__error">
+                {passwordError}
+              </span>
+              <input
+                name="password"
+                value={password}
+                type="password"
+                onChange={this.handleChange}
+                className="signup-page__input-field"
+                required
+              />
             </label>
-            <input
-              name="password"
-              value={this.state.password}
-              type="password"
-              onChange={this.handleChange}
-              className="signup-page__input-field"
-              required
-            />
           </div>
 
           <div className="signup-page__input">
-            <label className="signup-page__label">
+            <label htmlFor="confirmPassword" className="signup-page__label">
               Confirm Password
-              <span className="signup-page__error">{this.getConfirmPasswordError()}</span>
+              <span className="signup-page__error">
+                {this.getConfirmPasswordError()}
+              </span>
+              <input
+                name="confirmPassword"
+                value={confirmPassword}
+                type="password"
+                onChange={this.handleChange}
+                className="signup-page__input-field"
+                required
+              />
             </label>
-            <input
-              name="confirmPassword"
-              value={this.state.confirmPassword}
-              type="password"
-              onChange={this.handleChange}
-              className="signup-page__input-field"
-              required
-            />
           </div>
 
           <div>
             <button
-              disabled={this.isSubmitButtonDisabled()}
-              className="signup-page__submit-button"
               type="submit"
+              disabled={this.isSubmitButtonEnabled()}
+              className="signup-page__submit-button"
             >
               Signup!
             </button>
@@ -154,7 +186,7 @@ class SignupPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setUser: (user) => {
-    dispatch(setUser(user));
+    dispatch(setUserAction(user));
   },
 });
 
