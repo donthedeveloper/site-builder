@@ -1,39 +1,15 @@
 
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackTemplate = require('html-webpack-template');
+const common = require('./webpack.common');
 
-
-module.exports = {
-  entry: './browser/src/react-redux/index.js',
+module.exports = merge(common, {
   mode: 'development',
-  module: {
-    rules: [
-      {
-        test: /jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
-      },
-    ],
-  },
   resolve: {
     extensions: ['.js'],
-  },
-  output: {
-    path: path.join(__dirname, 'browser/dist'),
-    filename: 'scripts.js',
   },
   devtool: 'source-map',
   devServer: {
@@ -47,11 +23,11 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
+      appMountId: 'app',
       inject: false,
       template: HtmlWebpackTemplate,
-      appMountId: 'app',
+      title: 'Site Builder',
     }),
   ],
-};
+});
