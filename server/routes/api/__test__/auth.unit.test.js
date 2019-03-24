@@ -52,7 +52,8 @@ describe('Auth Routes', () => {
 
     it('will return an error with no token', async () => {
       const res = await request(app).get('/api/auth/reset/');
-      expect(res.statusCode).toEqual(404);
+      expect(res.statusCode).toEqual(400);
+      expect(res.text).toMatch('Invalid or expired token');
     });
 
     it('will return an error with invalid token', async () => {
