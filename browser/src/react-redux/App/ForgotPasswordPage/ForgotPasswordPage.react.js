@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const initialState = {
   email: '',
-  response: '',
+  errorMessage: '',
+  successMessage: '',
 };
 
 class ForgotPasswordPage extends Component {
@@ -17,7 +18,7 @@ class ForgotPasswordPage extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.setState({ response: '' });
+    this.setState({ errorMessage: '', successMessage: '' });
     const { email } = this.state;
     const userEmail = {
       email,
@@ -25,19 +26,23 @@ class ForgotPasswordPage extends Component {
     axios
       .post('/api/auth/forgot', userEmail)
       .then(() => {
-        this.setState({ response: 'You should receive an email, soon, with instructions to reset your password.' });
+        this.setState({ successMessage: 'You should receive an email, soon, with instructions to reset your password.' });
       })
       .catch((error) => {
-        const { message } = error.response.data;
-        this.setState({ response: message });
+        this.setState({ errorMessage: error.response.data.error.message });
       });
   }
 
   render() {
-    const { email, response } = this.state;
+    const { email, errorMessage, successMessage } = this.state;
+    const selectedMessage = errorMessage || successMessage;
     return (
       <div className="forgot-page">
-        <form onSubmit={this.onSubmit} className="forgot-page__form">
+        <p>{selectedMessage}</p>
+        <form
+          onSubmit={this.onSubmit}
+          className="forgot-page__form"
+        >
           <h1 className="forgot-page__title">Forgot Password</h1>
           <div className="forgot-page__input">
             <label htmlFor="email" className="forgot-page__label">
@@ -55,14 +60,12 @@ class ForgotPasswordPage extends Component {
           </div>
           <div>
             <button
-              // disabled={this.isSubmitButtonDisabled()}
               className="forgot-page__submit-button"
               type="submit"
             >
               Submit
             </button>
           </div>
-          <p>{response}</p>
         </form>
       </div>
     );
