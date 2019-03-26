@@ -1,9 +1,6 @@
-@import  './../utilities/config';
 
 .signup-page {
-  font-family: 'Roboto', sans-serif;
   position: relative;
-  background: $light-grey;
   top: 100px;
   max-width: 500px;
   width: 100%;
@@ -14,7 +11,7 @@
   }
 
   &__title {
-    background: $blue;
+    background: blue;
     color: white;
     padding: 20px;
     text-align: center;
@@ -29,18 +26,18 @@
 
   &__submit-button {
     display: block;
-    background: $green;
+    background: green;
     color: white;
     width: 66%;
     margin: 20px auto;
     text-align: center;
     padding: 10px 0;
-    border: 1px $green;
+    border: 1px green;
     cursor: pointer;
     &:active {
       background: white;
       border: 1px white;
-      color: $green;
+      color: green;
       outline: none;
     }
     &:focus {
@@ -52,7 +49,6 @@
     }
   }
   &__input {
-    font-family: 'Roboto', sans-serif;
     max-width: 66%;
     margin: 10px auto;
   }
@@ -72,17 +68,17 @@
     display: block;
     outline: none;
     border: 0;
-    color: grey;
+    color: black;
     border-bottom: solid grey;
-    background-color: $light-grey;
+    background-color: grey;
     width: 100%;
     padding: 5px;
 
     &:focus {
-      color: $blue;
-      border-bottom: solid $blue;
+      color: blue;
+      border-bottom: solid blue;
     }
   }
-  
-  
+
+
 }
