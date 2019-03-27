@@ -92,4 +92,56 @@ router.get('/reset/:token?', async (req, res) => {
   return res.status(200).json(user);
 });
 
+// Post Reset Password
+router.post('/reset/:token', async (req, res) => {
+  // find user with reset token and check it hasn't expired
+  const user = await User.findOne({
+    'resetPassword.token': req.params.token,
+    'resetPassword.expiration': { $gt: Date.now() },
+  });
+  if (!user) {
+    return res
+      .status(401)
+      .json('Invalid or expired token.')
+      .end();
+  }
+
+  // reset password
+  user.password = req.body.password;
+  user.resetPassword.token = undefined;
+  user.resetPassword.expiration = undefined;
+
+  try {
+    await user.save();
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+
+  const smtpTransport = nodemailer.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+      user: 'apikey',
+      pass: process.env.SG_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.PASSWORD_RESET_AUTH_EMAIL,
+    to: user.email,
+    subject: 'Your password has been changed',
+    html: `<p>The password for ${user.email} has been changed.</p>`,
+  };
+
+  try {
+    await smtpTransport.sendMail(mailOptions);
+    return res
+      .status(200)
+      .json(user)
+      .end();
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
 module.exports = router;
