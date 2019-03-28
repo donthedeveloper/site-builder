@@ -39,5 +39,12 @@ app.use(bodyParser.json());
 app.use(express.static('browser/dist'));
 
 app.use('/', router);
-
+app.use((err, req, res, next) => {
+  res.status(500);
+  res.json({
+    errors: {
+      message: 'There was a server error. Please contact the site administrator.',
+    },
+  });
+});
 module.exports = app;

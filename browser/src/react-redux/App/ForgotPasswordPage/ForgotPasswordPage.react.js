@@ -29,7 +29,7 @@ class ForgotPasswordPage extends Component {
         this.setState({ successMessage: 'You should receive an email, soon, with instructions to reset your password.' });
       })
       .catch((error) => {
-        this.setState({ errorMessage: error.response.data.error.message });
+        this.setState({ errorMessage: error.response.data.errors.message });
       });
   }
 
@@ -38,12 +38,12 @@ class ForgotPasswordPage extends Component {
     const selectedMessage = errorMessage || successMessage;
     return (
       <div className="forgot-page">
-        <p>{selectedMessage}</p>
         <form
           onSubmit={this.onSubmit}
           className="forgot-page__form"
         >
           <h1 className="forgot-page__title">Forgot Password</h1>
+          <p>{selectedMessage}</p>
           <div className="forgot-page__input">
             <label htmlFor="email" className="forgot-page__label">
               Email

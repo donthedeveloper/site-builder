@@ -31,7 +31,7 @@ router.get('/logout', (req, res) => {
   req.session.destroy(err => (err ? res.status(500).json(err) : res.status(200).end()));
 });
 
-router.post('/forgot', async (req, res) => {
+router.post('/forgot', async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email }).exec();
   if (!user) {
     return res.status(200).end();
@@ -42,7 +42,7 @@ router.post('/forgot', async (req, res) => {
   try {
     await user.save();
   } catch (err) {
-    return res.status(500).end();
+    return next(err);
   }
 
   const smtpTransport = nodemailer.createTransport({
@@ -58,13 +58,13 @@ router.post('/forgot', async (req, res) => {
     from: process.env.PASSWORD_RESET_AUTH_EMAIL,
     to: user.email,
     subject: 'Forgot Password Request',
-    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/reset/${token}">here</a> to finish resetting your password.</p>`,
+    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/api/auth/reset/${token}">here</a> to finish resetting your password.</p>`,
   };
   try {
     await smtpTransport.sendMail(mailOptions);
     return res.status(200).end();
   } catch (err) {
-    return res.status(500).end();
+    return next(err);
   }
 });
 
