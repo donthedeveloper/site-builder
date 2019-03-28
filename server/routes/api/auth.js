@@ -58,7 +58,7 @@ router.post('/forgot', async (req, res, next) => {
     from: process.env.PASSWORD_RESET_AUTH_EMAIL,
     to: user.email,
     subject: 'Forgot Password Request',
-    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/api/auth/reset/${token}">here</a> to finish resetting your password.</p>`,
+    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/reset/${token}">here</a> to finish resetting your password.</p>`,
   };
   try {
     await smtpTransport.sendMail(mailOptions);

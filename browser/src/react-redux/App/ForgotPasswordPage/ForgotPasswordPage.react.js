@@ -45,7 +45,10 @@ class ForgotPasswordPage extends Component {
           <h1 className="forgot-page__title">Forgot Password</h1>
           <p>{selectedMessage}</p>
           <div className="forgot-page__input">
-            <label htmlFor="email" className="forgot-page__label">
+            <label
+              htmlFor="email"
+              className="forgot-page__label"
+            >
               Email
               <input
                 id="email"
