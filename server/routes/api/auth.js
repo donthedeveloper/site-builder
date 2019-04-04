@@ -113,6 +113,8 @@ router.post('/reset/:token', async (req, res) => {
 
   try {
     await user.save();
+    // Save user session id (Log in user)
+    req.session.userId = user._id;
   } catch (err) {
     return res.status(500).json({ error: err });
   }
@@ -126,6 +128,7 @@ router.post('/reset/:token', async (req, res) => {
     },
   });
 
+  // Reset password confirmation email settings
   const mailOptions = {
     from: process.env.PASSWORD_RESET_AUTH_EMAIL,
     to: user.email,
