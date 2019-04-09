@@ -40,7 +40,35 @@ describe('Auth Routes', () => {
     });
   });
 
-  describe('GET Auth/Reset', () => {
+  describe('POST Auth/Forgot', () => {
+    // send 200 on non existent user email instead of error for security purposes.
+    it('will return status 200 on nonexistent user', async () => {
+      const res = await request(app)
+        .post('/api/auth/forgot')
+        .type('form')
+        .send({ email: 'doesnotexist@test.com' });
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('will return status 200 on existing user', async () => {
+      const res = await request(app)
+        .post('/api/auth/forgot')
+        .type('form')
+        .send({ email: existingUserEmail });
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('will create and then save a token and expiration to user', async () => {
+      await request(app)
+        .post('/api/auth/forgot')
+        .type('form')
+        .send({ email: existingUserEmail });
+      const user = await User.findOne({ email: existingUserEmail }).exec();
+      expect(user.resetPassword.token && user.resetPassword.expiration).toBeTruthy();
+    });
+  });
+
+  describe('Auth/Reset', () => {
     let user;
     beforeAll(async () => {
       await request(app)
@@ -49,76 +77,47 @@ describe('Auth Routes', () => {
         .send({ email: existingUserEmail });
       user = await User.findOne({ email: existingUserEmail }).exec();
     });
+    describe('GET Auth/Reset', () => {
+      it('will return an error with no token', async () => {
+        const res = await request(app).get('/api/auth/reset/');
+        expect(res.statusCode).toEqual(400);
+        expect(res.text).toMatch('Invalid or expired token');
+      });
 
-    it('will return an error with no token', async () => {
-      const res = await request(app).get('/api/auth/reset/');
-      expect(res.statusCode).toEqual(400);
-      expect(res.text).toMatch('Invalid or expired token');
+      it('will return an error with invalid token', async () => {
+        const res = await request(app).get('/api/auth/reset/1234');
+        expect(res.statusCode).toEqual(401);
+        expect(res.text).toMatch('Invalid or expired token');
+      });
+
+      it('will return user object with valid token', async () => {
+        const { token } = user.resetPassword;
+        const res = await request(app).get(`/api/auth/reset/${token}`);
+        expect(res.statusCode).toEqual(200);
+        expect(Object.keys(res.body)).toEqual([
+          'resetPassword',
+          '_id',
+          'email',
+          'createdAt',
+          'updatedAt',
+          '__v',
+        ]);
+      });
+
+      it('will return an error with an expired token', async () => {
+        // set token past expiry
+        user.resetPassword.expiration -= 3600001;
+        await user.save();
+
+        const expiredToken = user.resetPassword.token;
+        const res = await request(app).get(`/api/auth/reset/${expiredToken}`);
+        expect(res.statusCode).toEqual(401);
+        expect(res.text).toMatch('Invalid or expired token');
+      });
     });
 
-    it('will return an error with invalid token', async () => {
-      const res = await request(app).get('/api/auth/reset/1234');
-      expect(res.statusCode).toEqual(401);
-      expect(res.text).toMatch('Invalid or expired token');
+    describe('POST Auth/Reset', () => {
+      //
     });
-
-    it('will return user object with valid token', async () => {
-      const { token } = user.resetPassword;
-      const res = await request(app).get(`/api/auth/reset/${token}`);
-      expect(res.statusCode).toEqual(200);
-      expect(Object.keys(res.body)).toEqual([
-        'resetPassword',
-        '_id',
-        'email',
-        'createdAt',
-        'updatedAt',
-        '__v',
-      ]);
-    });
-
-    it('will return an error with an expired token', async () => {
-      // set token past expiry
-      user.resetPassword.expiration -= 3600001;
-      await user.save();
-
-      const expiredToken = user.resetPassword.token;
-      const res = await request(app).get(`/api/auth/reset/${expiredToken}`);
-      expect(res.statusCode).toEqual(401);
-      expect(res.text).toMatch('Invalid or expired token');
-    });
-  });
-});
-
-describe('POST Auth/Forgot', () => {
-  const existingUserEmail = 'testUser@test.com';
-
-  beforeAll(() => User.create({ email: existingUserEmail, password: 'test' }));
-
-  afterAll(() => User.findOneAndDelete({ email: existingUserEmail }));
-
-  // send 200 on non existent user email instead of error for security purposes.
-  it('will return status 200 on nonexistent user', async () => {
-    const res = await request(app)
-      .post('/api/auth/forgot')
-      .type('form')
-      .send({ email: 'doesnotexist@test.com' });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it('will return status 200 on existing user', async () => {
-    const res = await request(app)
-      .post('/api/auth/forgot')
-      .type('form')
-      .send({ email: existingUserEmail });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it('will create and then save a token and expiration to user', async () => {
-    await request(app)
-      .post('/api/auth/forgot')
-      .type('form')
-      .send({ email: existingUserEmail });
-    const user = await User.findOne({ email: existingUserEmail }).exec();
-    expect(user.resetPassword.token && user.resetPassword.expiration).toBeTruthy();
   });
 });
