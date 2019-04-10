@@ -2,8 +2,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackTemplate = require('html-webpack-template');
 const common = require('./webpack.common');
 
 module.exports = merge(common, {
@@ -23,11 +21,5 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      appMountId: 'app',
-      inject: false,
-      template: HtmlWebpackTemplate,
-      title: 'Site Builder',
-    }),
   ],
 });
