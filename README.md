@@ -67,7 +67,7 @@ In order to break out of this (as this terminal is now listening for connections
 ## Congratulations! You've successfully installed MongoDB.
 
 Ok, now the real test. Run this command to start up the server:
-`npm run dev-mac` or `npm run dev-windows`
+`npm run dev` or `npm run dev-windows`
 
 In your browser, visit `localhost:3000`. Does it work? Let us know!
 
