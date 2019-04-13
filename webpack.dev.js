@@ -21,7 +21,7 @@ module.exports = merge(common, {
     },
     port: 3001,
     // eslint-disable-next-line no-shadow
-    writeToDisk: filePath => /index\.html/.test(filePath),
+    writeToDisk: true,
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
