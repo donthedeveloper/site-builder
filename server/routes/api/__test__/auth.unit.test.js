@@ -1,3 +1,4 @@
+require('@babel/polyfill'); // for async await
 const request = require('supertest');
 const app = require('../../../../app');
 const User = require('../../../models/user');
@@ -45,6 +46,7 @@ describe('Auth Routes', () => {
     it('will return status 200 on nonexistent user', async () => {
       const res = await request(app)
         .post('/api/auth/forgot')
+        .query('env=test')
         .type('form')
         .send({ email: 'doesnotexist@test.com' });
       expect(res.statusCode).toEqual(200);
@@ -53,6 +55,7 @@ describe('Auth Routes', () => {
     it('will return status 200 on existing user', async () => {
       const res = await request(app)
         .post('/api/auth/forgot')
+        .query('env=test')
         .type('form')
         .send({ email: existingUserEmail });
       expect(res.statusCode).toEqual(200);
@@ -61,8 +64,9 @@ describe('Auth Routes', () => {
     it('will create and then save a token and expiration to user', async () => {
       await request(app)
         .post('/api/auth/forgot')
+        .query('env=test')
         .type('form')
-        .send({ email: existingUserEmail });
+        .send({ email: 'existingUserEmail' });
       const user = await User.findOne({ email: existingUserEmail }).exec();
       expect(user.resetPassword.token && user.resetPassword.expiration).toBeTruthy();
     });
@@ -70,13 +74,15 @@ describe('Auth Routes', () => {
 
   describe('Auth/Reset', () => {
     let user;
-    beforeAll(async () => {
-      await request(app)
+    beforeEach(async () => {
+      request(app)
         .post('/api/auth/forgot')
+        .query('env=test')
         .type('form')
         .send({ email: existingUserEmail });
       user = await User.findOne({ email: existingUserEmail }).exec();
     });
+
     describe('GET Auth/Reset', () => {
       it('will return an error with no token', async () => {
         const res = await request(app).get('/api/auth/reset/');
@@ -117,7 +123,17 @@ describe('Auth Routes', () => {
     });
 
     describe('POST Auth/Reset', () => {
-      //
+      it('will return an error with no token', async () => {
+        const res = await request(app).post('/api/auth/reset/');
+        expect(res.statusCode).toEqual(400);
+        expect(res.text).toMatch('Invalid or expired token');
+      });
+
+      it('will return an error with invalid token', async () => {
+        const res = await request(app).post('/api/auth/reset/1234');
+        expect(res.statusCode).toEqual(401);
+        expect(res.text).toMatch('Invalid or expired token');
+      });
     });
   });
 });

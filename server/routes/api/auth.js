@@ -64,7 +64,11 @@ router.post('/forgot', async (req, res) => {
     }/api/auth/reset/${token}">here</a> to finish resetting your password.</p>`,
   };
   try {
-    await smtpTransport.sendMail(mailOptions);
+    const { env } = req.query;
+    if (env === undefined && env !== 'test') {
+      await smtpTransport.sendMail(mailOptions);
+      console.error('********', 'email sent');
+    }
     return res.status(200).end();
   } catch (err) {
     return res.status(500).end();
@@ -93,7 +97,12 @@ router.get('/reset/:token?', async (req, res) => {
 });
 
 // Post Reset Password
-router.post('/reset/:token', async (req, res) => {
+router.post('/reset/:token?', async (req, res) => {
+  const { token } = req.params;
+  if (token === undefined) {
+    return res.status(400).json('Invalid or expired token.');
+  }
+
   // find user with reset token and check it hasn't expired
   const user = await User.findOne({
     'resetPassword.token': req.params.token,
@@ -137,7 +146,11 @@ router.post('/reset/:token', async (req, res) => {
   };
 
   try {
-    await smtpTransport.sendMail(mailOptions);
+    const { env } = req.query;
+    if (env === undefined && env !== 'test') {
+      // await smtpTransport.sendMail(mailOptions);
+      console.error('********', 'email sent');
+    }
     return res
       .status(200)
       .json(user)
