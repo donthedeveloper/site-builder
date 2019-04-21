@@ -67,7 +67,6 @@ router.post('/forgot', async (req, res) => {
     const { env } = req.query;
     if (env === undefined && env !== 'test') {
       await smtpTransport.sendMail(mailOptions);
-      console.error('********', 'email sent');
     }
     return res.status(200).end();
   } catch (err) {
@@ -148,8 +147,7 @@ router.post('/reset/:token?', async (req, res) => {
   try {
     const { env } = req.query;
     if (env === undefined && env !== 'test') {
-      // await smtpTransport.sendMail(mailOptions);
-      console.error('********', 'email sent');
+      await smtpTransport.sendMail(mailOptions);
     }
     return res
       .status(200)
