@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+
 require('dotenv').config();
 
 // User Model
@@ -30,7 +31,7 @@ router.get('/logout', (req, res) => {
   req.session.destroy(err => (err ? res.status(500).json(err) : res.status(200).end()));
 });
 
-router.post('/forgot', async (req, res) => {
+router.post('/forgot', async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email }).exec();
   if (!user) {
     return res.status(200).end();
@@ -41,7 +42,7 @@ router.post('/forgot', async (req, res) => {
   try {
     await user.save();
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return next(err);
   }
 
   const smtpTransport = nodemailer.createTransport({
@@ -63,7 +64,7 @@ router.post('/forgot', async (req, res) => {
     await smtpTransport.sendMail(mailOptions);
     return res.status(200).end();
   } catch (err) {
-    return res.status(500).end();
+    return next(err);
   }
 });
 

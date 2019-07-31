@@ -1,6 +1,11 @@
 {
-  "plugins": ["jest"],
-  "extends": ["airbnb", "plugin:jest/recommended"],
+  "plugins": [
+    "jest"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:jest/recommended"
+  ],
   "rules": {
     "linebreak-style": "off",
     "react/jsx-filename-extension": [
@@ -12,7 +17,13 @@
         ]
       }
     ],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "next"
+      }
+    ]
   },
   "parser": "babel-eslint",
   "env": {
