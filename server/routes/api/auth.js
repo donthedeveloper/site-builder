@@ -26,10 +26,12 @@ router.post('/login', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// GET User Logout
 router.get('/logout', (req, res) => {
   req.session.destroy(err => (err ? res.status(500).json(err) : res.status(200).end()));
 });
 
+// POST User Forgot Password
 router.post('/forgot', async (req, res) => {
   const user = await User.findOne({ email: req.body.email }).exec();
   if (!user) {
@@ -57,7 +59,9 @@ router.post('/forgot', async (req, res) => {
     from: process.env.PASSWORD_RESET_AUTH_EMAIL,
     to: user.email,
     subject: 'Forgot Password Request',
-    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${process.env.PORT}/reset/${token}">here</a> to finish resetting your password.</p>`,
+    html: `<p>You are receiving this because you, or someone else, requested a password reset. Click <a href="http://localhost:${
+      process.env.PORT
+    }/api/auth/reset/${token}">here</a> to finish resetting your password.</p>`,
   };
   try {
     await smtpTransport.sendMail(mailOptions);
@@ -67,5 +71,25 @@ router.post('/forgot', async (req, res) => {
   }
 });
 
+// GET Reset Password
+router.get('/reset/:token?', async (req, res) => {
+  const { token } = req.params;
+  if (token === undefined) {
+    return res.status(400).json('Invalid or expired token.');
+  }
+
+  // find user with reset token and check it hasn't expired
+  const user = await User.findOne({
+    'resetPassword.token': req.params.token,
+    'resetPassword.expiration': { $gt: Date.now() },
+  });
+  if (!user) {
+    return res
+      .status(401)
+      .json('Invalid or expired token.')
+      .end();
+  }
+  return res.status(200).json(user);
+});
 
 module.exports = router;
